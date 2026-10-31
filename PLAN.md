@@ -3,6 +3,8 @@
 v3 · 2026-10-31 · 基于竞品核查后重构（[docs/competitive-review.md](docs/competitive-review.md)）
 ~~v2 自研画布方案~~ 已废止——OpenPencil（MIT、9.5k 星）功能全覆盖。v1 执行手册（docs/EXECUTION_SPEC.md）随之作废，新手册待 v3 定稿后重写。
 
+> pen.dev 的完整逆向拆解与功能/架构/格式调研见 [docs/research.md](docs/research.md)：含 `.pen` 格式 schema、渲染层技术信号、MCP/CLI 能力边界、"重"的成因，以及洁净室复刻红线。差异层（文本 JSON 格式）的设计依据在该文 §5.1 与 §6。
+
 ## 产品定义
 
 **OpenDesigner — AI 时代内容创作者的开源设计工作台，built on OpenPencil 引擎。**
