@@ -45,7 +45,7 @@ npm registry 实查（2026-10-31）：三个 `@open-pencil/*` 的 `latest` 均�
 |---|---|---|
 | 文档层 | `SceneGraph` **实例**（不是独立类型） | `scene-graph/src/index.ts:186` |
 | 页面层 | `SceneNode` 且 `type === 'CANVAS'`（**和普通节点同一套字段**） | `addPage()` → `createNode('CANVAS', rootId)` |
-| 节点层 | `SceneNode`（154 字段） | `scene-graph/src/types.ts:2366` |
+| 节点层 | `SceneNode`（154 字段） | `scene-graph/dist/types.d.ts:2366`（源码 `src/types.ts:523`） |
 
 `new SceneGraph()` 自带一个 root FRAME（名字 `Document`）+ 一张 `Page 1`（`index.ts:211-222`），不用自己 addPage。
 
@@ -416,7 +416,8 @@ core 的 dist 里有 `.js` 文件，但引用时**漏改了扩展名**：
 
 ### 坑 D：画布要 WebGL2
 
-`CanvasSurface` 用 WebGL2 建 surface，失败时会在 canvas 上标 `data-surface-error="webgl"`。
+`CanvasSurface` 用 WebGL2 建 surface，失败时会在 canvas 上标 `data-surface-error="webgl"`
+（`@open-pencil/vue/dist/canvas/CanvasRoot.js`：`canvas.dataset.surfaceError = "webgl"`）。
 无头浏览器没有 GPU 时会挂——**这是云电脑最容易卡住的地方**。
 
 ### 解法：Node 侧无头渲染，不需要浏览器
@@ -455,6 +456,11 @@ core 的 dist 里有 `.js` 文件，但引用时**漏改了扩展名**：
 - `getViewportSize` 返回的是**画布容器**尺寸，不是窗口尺寸
 - `provideEditor(editor)` 在壳的顶层调一次；`CanvasRoot` 自己会初始化 CanvasKit 并创建 renderer
 - 官方示例用了 Tailwind 的 `size-full`；`shell/src/style.css` 里手写了等价类，不引 Tailwind
+- **`createCollection(name)` 只收一个参数**——0.16.0 的变量集合**没有类型字段**，
+  变量类型由 `createVariable(name, type, collectionId, value?)` 的 `type` 参数决定。
+  多传一个 `'color'` 不会报错，但会被静默忽略（JS 允许多余实参），
+  而 `shell/scripts/*.mjs` 是纯 JS、不在 tsconfig 里，**类型检查抓不到这种错**——
+  Phase 1 改写成 TS 时才会暴露。
 
 ---
 
@@ -502,7 +508,7 @@ python3 scripts/gen-field-list.py \
 | `npm run typecheck` | ✅ PASS（首次报 `Property 'a' is missing in type 'Color'`，已修，见坑 F） |
 | `npm run build` | ✅ PASS，`dist/canvaskit.wasm` 落在产物根（7,317.35 kB） |
 | `npm run render-check` | ✅ PASS，`shell/out/render-check.png`，582 bytes，矩形 240×160 已实际渲染出蓝色块 |
-| `npm run serialize-probe` | ✅ PASS，5 节点 × 154 字段 = 770 字段，往返零丢失，`sample.od.json` 26,875 bytes |
+| `npm run serialize-probe` | ✅ PASS，5 节点 × 154 字段 = 770 字段，往返零丢失，`sample.od.json` 26,953 bytes |
 | dev server `/canvaskit.wasm` | ✅ 200 / `application/wasm` / 7,317,345 bytes / 魔数 `00 61 73 6d` |
 | dev server `/` 与 `/src/main.ts` | ✅ 200 |
 | 浏览器实际渲染 | ⏳ **本机无 GPU，未验证** —— 留给云电脑 |
@@ -515,11 +521,15 @@ serialize-probe 的实际输出：
 [serialize-probe] 字段总计: 770
 [serialize-probe] 变量: 2 个
 [serialize-probe] 变量集合: 2 个
-[serialize-probe] JSON 体积: 26875 bytes
+[serialize-probe] JSON 体积: 26953 bytes
 [serialize-probe] 因值为 undefined 被 JSON 丢弃的字段数: 5 （→ schema 该用 .optional()，不是 .nullable()）
 [serialize-probe] PASS: .../shell/out/sample.od.json
-[serialize-probe] 绑定字段: {"fills/0/color":"175648077:8","opacity":"175648077:11"}
+[serialize-probe] 绑定字段: {"fills/0/color":"2023314381:8","opacity":"2023314381:11"}
 ```
+
+> **别拿字节数当验收标准。** 节点 ID 是 `${随机会话号}:${计数器}`，会话号位数会变，
+> 所以 JSON 体积每次跑会差几十字节（实测 26,875–26,953）。**验收看「字段总数 770」和「PASS」**。
+> 绑定字段里的 ID 同理，每次都不一样。
 
 ---
 

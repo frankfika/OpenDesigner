@@ -74,7 +74,9 @@ function buildScene() {
   //   字符串：text / fontFamily
   //   布尔：visible
   //   颜色：fills/<索引>/color 或 strokes/<索引>/color
-  const collection = graph.createCollection('主题色', 'color')
+  // 注意：0.16.0 的 createCollection 只收一个 name 参数，变量集合**没有类型字段**，
+  // 变量类型由 createVariable 的 type 参数决定。别多传参数。
+  const collection = graph.createCollection('主题色')
   const colorVar = graph.createVariable('主色', 'COLOR', collection.id, {
     r: 0.29,
     g: 0.56,
@@ -83,7 +85,7 @@ function buildScene() {
   })
   graph.bindVariable(rect.id, 'fills/0/color', colorVar.id)
 
-  const numericCollection = graph.createCollection('尺寸', 'float')
+  const numericCollection = graph.createCollection('尺寸')
   const numericVar = graph.createVariable('不透明度', 'FLOAT', numericCollection.id, 0.8)
   graph.bindVariable(rect.id, 'opacity', numericVar.id)
 
@@ -198,7 +200,9 @@ mkdirSync(outDir, { recursive: true })
 const outPath = resolve(outDir, 'sample.od.json')
 writeFileSync(outPath, json)
 
-console.log(`[serialize-probe] JSON 体积: ${json.length} bytes`)
+// 注意：json.length 是 UTF-16 码元数，不是字节数。要字节数用 Buffer.byteLength。
+const byteLength = Buffer.byteLength(json, 'utf8')
+console.log(`[serialize-probe] JSON 体积: ${byteLength} bytes`)
 console.log(
   `[serialize-probe] 因值为 undefined 被 JSON 丢弃的字段数: ${droppedByUndefined} ` +
     `（→ schema 该用 .optional()，不是 .nullable()）`
