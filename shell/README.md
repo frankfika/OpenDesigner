@@ -18,6 +18,7 @@ npm run dev        # 浏览器壳 → http://localhost:5173
 | `npm run build` | 生产构建 | 成功，且 `dist/canvaskit.wasm` 落在**产物根目录** |
 | `npm run render-check` | Node 侧无头渲染（**不依赖 GPU**） | `shell/out/render-check.png` 非空 |
 | `npm run serialize-probe` | 文档模型 → JSON 往返 | 字段零丢失，产出 `shell/out/sample.od.json` |
+| `node scripts/browser-check.mjs <url> <png>` | 浏览器渲染（需 Playwright） | 打印 `canvasCount`/`webgl2`/`surfaceError`，全对即 `BROWSER CHECK: PASS` |
 
 `render-check` 走引擎自带的 `headlessRenderNodes()`（Node + CanvasKit WASM），绕开浏览器和 WebGL2。
 无头机器上判断「引擎能不能画」，**以它为准**，浏览器截图只是加分项。
@@ -55,5 +56,6 @@ src/App.vue              provideEditor + CanvasRoot/CanvasSurface
 src/style.css            基础样式（手写了 size-full，没引 Tailwind）
 scripts/render-check.mjs Node 侧无头渲染自检
 scripts/serialize-probe.mjs  文档模型 → JSON 往返自检
-vite.config.ts           三个坑的修复都在这
+scripts/browser-check.mjs   浏览器渲染取证（需 Playwright）
+vite.config.ts           几个坑的修复都在这
 ```

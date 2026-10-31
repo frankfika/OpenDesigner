@@ -70,15 +70,18 @@
 4. cd shell && npm run build         贴完整输出（wasm 要落到产物根 dist/canvaskit.wasm）
 5. cd shell && npm run render-check  必须出 PNG 且非空，报告字节数
 6. cd shell && npm run serialize-probe  必须往返无字段丢失，贴输出
-7. 浏览器取证：cd shell && npm run dev，打开页面，截图证明画出了矩形。
+7. 浏览器取证：cd shell && npm run dev -- --port 5300，
+   然后 node scripts/browser-check.mjs http://localhost:5300/ out/browser-shot.png
    - 实测无头 Chromium（SwiftShader）的 WebGL2 是可用的，正常应该能画出来
+   - 脚本会打印 canvasCount / webgl2 / surfaceError 三项，全对就是 BROWSER CHECK: PASS
+   - 没装 Playwright 就跳过本项，用第 5 项（Node 无头渲染）顶上，那条不依赖浏览器
    - 如果出来是**白页** + console 报 "does not provide an export named 'default'"，
      那是 vite.config.ts 里 optimizeDeps.exclude 的问题，**不是** GPU 问题
      （本仓库已修好，别改回去；细节见 docs/sdk-notes.md §5 坑 E）
    - 兜底路径：npm run build && npm run preview，这条不过 dev 的依赖预打包
    - 还是不行就如实报告，把 console 报错贴出来，标 ❌ + 原因
    - 不许伪造截图、不许用别的东西冒充画布
-   - 注意 5 号（Node 无头渲染）不依赖 GPU，它通过就说明引擎本身能画
+   - console 里的 404 和字体警告是已知噪音，不影响渲染，判断标准看上面那三项
 8. 核对字段数：python3 scripts/gen-field-list.py \
      shell/node_modules/@open-pencil/scene-graph/dist /tmp/field-list.md
    —— 期望 154 个节点字段；不一致就报 ❌ 并 diff 差异

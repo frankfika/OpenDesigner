@@ -519,6 +519,17 @@ npm run render-check     # Node 无头渲染 → shell/out/render-check.png
 npm run serialize-probe  # 文档模型 → JSON 往返 → shell/out/sample.od.json
 ```
 
+浏览器取证（需要 Playwright，没装就跳过，用 `render-check` 顶上）：
+
+```bash
+cd shell
+npm run dev -- --port 5300 &
+node scripts/browser-check.mjs http://localhost:5300/ out/browser-shot.png
+```
+
+`browser-check.mjs` 会打印 `canvasCount` / `webgl2` / `surfaceError` 三项并截图，
+全对就打印 `BROWSER CHECK: PASS`。
+
 字段清单重新生成：
 
 ```bash
@@ -539,6 +550,12 @@ python3 scripts/gen-field-list.py \
 | dev server `/` 与 `/src/main.ts` | ✅ 200 |
 | **浏览器实际渲染（无头 Chromium）** | ✅ **已验证**：canvas 1280×752、WebGL2 可用（SwiftShader）、`surfaceError` 为 null，截图里蓝色矩形 38,400 像素、bbox x 80–319 / y 128–287 = 正好 240×160（y 偏移 48 是顶栏） |
 | 浏览器取证的两条路 | ✅ 都通：`npm run dev`（修复后）与 `npm run preview`（先 build） |
+| 去掉 exclude 之后的 build | ✅ PASS（2m21s），产物哈希与之前完全一致，`dist/canvaskit.wasm` 仍在根目录 |
+
+> **浏览器 console 里的 404 和字体警告是已知噪音，不是故障**：
+> `Failed to load resource: 404` 与 `OTS parsing error: invalid sfntVersion` /
+> `Failed to load font "Inter"` —— 都是字体资源没取到，**不影响画布渲染**，
+> 矩形照样画出来。判断是否成功请看 `canvasCount` / `webgl2` / `surfaceError` 三项。
 
 serialize-probe 的实际输出：
 
