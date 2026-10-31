@@ -9,7 +9,7 @@
 **文本序列化可行，而且上游已经证明过一次。**
 
 引擎的整个文档模型（`SceneGraph` + `SceneNode` 154 字段）能无损摊成 JSON——上游自己的剪贴板格式 `openpencil/v1` 就是这么干的（`core/src/clipboard/openpencil.ts`）。
-真正要花力气的是三个细节：**派生字段要剔除、图片要外置、节点 ID 要另做语义层**。
+真正要花力气的是四个细节：**ID 要另做语义层、派生字段要剔除、图片要外置、`undefined` 字段要用 `.optional()`**（详见 §4.3）。
 
 PLAN v3 的风险 #2（文本序列化保真度）**不构成红线**，但它也不是零成本——细节见 §4。
 
@@ -291,7 +291,7 @@ const serialized = { ...node, instanceOverrides: serializeInstanceOverrideState(
 
 ### 4.2 结论：可行
 
-- **154 个节点字段**：115 个 JSON 原生 + 34 个纯对象结构（改名即可）+ 1 个 base64 + 4 个丢弃重算 → **100% 可表达**
+- **154 个节点字段**：115 个 JSON 原生 + 32 个纯对象结构（改名即可）+ 2 个内嵌二进制 blob（可无损编码成文本）+ 1 个 base64 + 4 个派生（丢弃重算）→ **100% 可表达**
 - **几何 blob**：可无损编码（见 §6.4）
 - **图片**：可外置为 `assets/`
 - **文档层 Map**：`variables` / `variableCollections` / `activeMode` / `enabledLibraries` 全是纯对象，直接 JSON
