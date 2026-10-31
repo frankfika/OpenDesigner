@@ -551,6 +551,39 @@ python3 scripts/gen-field-list.py \
 | **浏览器实际渲染（无头 Chromium）** | ✅ **已验证**：canvas 1280×752、WebGL2 可用（SwiftShader）、`surfaceError` 为 null，截图里蓝色矩形 38,400 像素、bbox x 80–319 / y 128–287 = 正好 240×160（y 偏移 48 是顶栏） |
 | 浏览器取证的两条路 | ✅ 都通：`npm run dev`（修复后）与 `npm run preview`（先 build） |
 | 去掉 exclude 之后的 build | ✅ PASS（2m21s），产物哈希与之前完全一致，`dist/canvaskit.wasm` 仍在根目录 |
+| **从 git bundle 全新 clone 后重跑** | ✅ **全链路 PASS**：clone → `npm install` → typecheck → build → render-check → serialize-probe → dev → 浏览器，全部通过，且 build 产物哈希与原仓库逐字节一致 |
+| 字段清单脚本在干净环境的重生成结果 | ✅ 与仓库已提交文档**逐条零漂移**：§3.1 = 154 行（115+32+2+1+4），§3.2 = 12 行，字段名与类型全部一致 |
+
+### 7.1.1 从 bundle 全新 clone 的验证（2026-10-31）
+
+不信任"我这边能跑"，专门从交付用的 bundle 重新 clone 一遍跑全流程：
+
+```bash
+git clone -b main /path/to/OpenDesigner-phase0.bundle repo
+cd repo/shell && npm install && npm run typecheck && npm run build && npm run render-check && npm run serialize-probe
+```
+
+> ⚠️ **`git clone <bundle>` 不加 `-b main` 会克隆出空仓库**：
+> bundle 的 HEAD 指向 `refs/heads/main`，而 `git clone` 默认找 `refs/heads/master`，
+> 会打印 `warning: remote HEAD refers to nonexistent ref, unable to checkout` 然后给你一个空壳。
+> **要么加 `-b main`，要么在已 clone 的仓库里 `git fetch <bundle> main:refs/heads/main`。**
+
+实测结果：20 个受版本控制的文件全部到位，无 `node_modules` 误提交，四个 npm 脚本全绿，
+`gen-field-list.py` 在干净环境重新生成仍是 154 字段且与文档零漂移。
+
+### 7.1.2 依赖安全（`npm audit`）
+
+`npm install` 会报 7 条公告（3 moderate / 4 high）。**不要跑 `npm audit fix --force`**——
+它建议的"修复"是把 `@open-pencil/core` 降级到 0.13.2（跨 major），会直接毁掉本次摸底的前提。
+
+| 公告 | 来源 | 处置 |
+|---|---|---|
+| Vite `server.fs` 未应用到 HTML / public 同名文件可被中间件读到 | **直接依赖 vite 6.3.5** | ✅ **已修**：升到 6.4.5（同 major，无破坏性变更），复验 build 产物哈希不变、dev 浏览器渲染仍 PASS |
+| `pptxgenjs` → `image-size` 畸形 JXL/HEIF/ICNS 解析死循环 | 传递依赖，经 `@open-pencil/core` | **保留**：npm 给的"修复"是引擎降级，不接受。触发条件是喂畸形图片，属引擎上游问题；dev 壳不处理外部图片 |
+| `minimatch` globparts 放大导致 ReDoS | 传递依赖，经 `vue-tsc` → `@vue/language-core` | **保留**：修复需 `vue-tsc` 升到 3.x（跨 major）。仅 dev 期类型检查用，不进产物 |
+
+升 vite 后复验：`typecheck` ✅ / `build` ✅（产物哈希不变）/ `render-check` ✅ /
+`serialize-probe` ✅ / dev server ✅ / **浏览器渲染 ✅ BROWSER CHECK: PASS**。
 
 > **浏览器 console 里的 404 和字体警告是已知噪音，不是故障**：
 > `Failed to load resource: 404` 与 `OTS parsing error: invalid sfntVersion` /

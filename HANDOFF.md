@@ -108,6 +108,7 @@ wasm 落根 / 上游 worker .ts 后缀 / esbuild target es2022 /
 - 禁止实现 PLAN.md 里 Phase 1 及以后的功能（od-format、模板库、mmx 面板都不许动）
 - 禁止修改 docs/sdk-notes.md 里已核实的结论（可以补充、可以标 ❌ 并附证据，但不许静默改写）
 - 禁止装 deps 里没列的依赖；禁止改 PLAN.md / competitive-review.md
+- 禁止跑 `npm audit fix --force`（会把引擎降级到 0.13.2，毁掉本次前提）
 
 【关于 push】
 默认你没有 frankfika 仓库的推送权限。
@@ -127,6 +128,10 @@ wasm 落根 / 上游 worker .ts 后缀 / esbuild target es2022 /
 - **push 权限**：云电脑默认推不了 frankfika 的仓库。要它推，给它一个只授权这一个 repo 的 fine-grained PAT（设过期时间），或让它产出 patch 由你本机推
 - **没有 GPU 不是问题**：实测无头 Chromium（SwiftShader）的 WebGL2 可用，浏览器渲染能取证。
   真出问题多半是 `vite.config.ts` 被改坏了（见 docs/sdk-notes.md §5 坑 E），不是环境
+- **别跑 `npm audit fix --force`**：`npm install` 会报 7 条公告（3 moderate / 4 high），
+  `--force` 建议把 `@open-pencil/core` 降级到 0.13.2（跨 major），会直接毁掉 Phase 0 的前提。
+  已修的那条（vite 6.3.5）本机已升到 6.4.5；剩下的都是上游传递依赖，
+  处置理由见 docs/sdk-notes.md §7.1.2。**看到 audit 报警不要慌，也不要动依赖版本。**
 - **它干不完的别硬塞**：Phase 0 核对是机械活，适合云电脑；**写 v3 执行手册（EXECUTION_SPEC v3）是判断型工作，拿回本机做**
 
 ---
