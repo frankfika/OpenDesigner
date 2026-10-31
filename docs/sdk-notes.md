@@ -445,7 +445,8 @@ core 的 dist 里有 `.js` 文件，但引用时**漏改了扩展名**：
 | 布尔 | `visible` |
 | 颜色 | `fills/<索引>/color`、`strokes/<索引>/color` |
 
-写 `fills` 会直接抛 `Unknown binding field "fills"`。来源：`scene-graph/src/variables/fields.ts`。
+写 `fills` 会直接抛 `Unknown binding field "fills"`。
+来源：字段集合在 `scene-graph/src/variables/fields.ts`，校验与颜色路径解析在 `scene-graph/src/variables.ts` 的 `bindVariable()`。
 
 ### 其它已确认的 API 事实
 
