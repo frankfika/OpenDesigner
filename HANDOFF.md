@@ -6,6 +6,27 @@
 
 ---
 
+## 本机怎么把 bundle 推上去（实测可用，别自己改写命令）
+
+沙箱里没有 GitHub 凭证，所以改动是以 **git bundle** 的形式交付的。本机按下面这条走：
+
+```bash
+git clone https://github.com/frankfika/OpenDesigner.git
+cd OpenDesigner
+git pull /绝对路径/OpenDesigner-phase0.bundle main
+git push origin main
+```
+
+推完远端 `main` 会从 `8dafba4` 走到 `200c68b`（快进 13 个 commit，不覆盖任何东西）。
+
+> ⚠️ **别写成 `git fetch <bundle> main`**——那只更新 `FETCH_HEAD`，本地 `main` 没动，
+> 后面 `git push origin main` 会推 0 个 commit，git 还会回 "Everything up-to-date" 看着像成功。
+> 也别写 `git fetch <bundle> main:refs/heads/main`，那个直接报
+> `refusing to fetch into branch 'refs/heads/main' checked out at ...`。
+> 三种写法的实测对比见 `docs/sdk-notes.md` §7.1.1。
+
+---
+
 ## 现在的状态：Phase 0 的分析本机已经做完了
 
 **请先理解这一点再干活**——否则你会重复做已经做完的事，或者误以为仓库是空的：

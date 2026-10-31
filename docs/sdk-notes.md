@@ -619,9 +619,18 @@ cd repo/shell && npm install && npm run typecheck && npm run build && npm run re
 > ⚠️ **`git clone <bundle>` 不加 `-b main` 会克隆出空仓库**：
 > bundle 的 HEAD 指向 `refs/heads/main`，而 `git clone` 默认找 `refs/heads/master`，
 > 会打印 `warning: remote HEAD refers to nonexistent ref, unable to checkout` 然后给你一个空壳。
-> **要么加 `-b main`，要么在已 clone 的仓库里 `git fetch <bundle> main:refs/heads/main`。**
+> **要么加 `-b main`，要么用 `git pull <bundle> main`。**
 
-实测结果：20 个受版本控制的文件全部到位，无 `node_modules` 误提交，四个 npm 脚本全绿，
+> ⚠️ **往已 clone 的仓库里塞 bundle，三种写法只有两种能用**（实测）：
+>
+> | 写法 | 结果 |
+> |---|---|
+> | `git fetch <bundle> main` → `git push origin main` | ❌ **推 0 个 commit**。fetch 只更新 `FETCH_HEAD`，本地 `main` 没动，push 推的还是旧 HEAD，git 回一句 "Everything up-to-date" 看着像成功 |
+> | `git fetch <bundle> main:refs/heads/main` | ❌ **直接报错**：`refusing to fetch into branch 'refs/heads/main' checked out at ...`（不允许 fetch 进当前检出的分支） |
+> | **`git pull <bundle> main`** | ✅ **推荐**。fast-forward 更新本地 `main`，实测 `Updating 8dafba4..200c68b`，19 files changed，之后 `git push origin main` 正常 |
+> | `git fetch <bundle> main` → `git push origin FETCH_HEAD:main` | ✅ 也行，推的是 `FETCH_HEAD` 指向的 commit |
+
+实测结果：22 个受版本控制的文件全部到位，无 `node_modules` 误提交，四个 npm 脚本全绿，
 `gen-field-list.py` 在干净环境重新生成仍是 154 字段且与文档零漂移。
 
 ### 7.1.2 依赖安全（`npm audit`）
