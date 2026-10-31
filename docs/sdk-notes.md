@@ -389,7 +389,8 @@ core 的 dist 里有 `.js` 文件，但引用时**漏改了扩展名**：
 | `dist/io/formats/fig/export.js` | `new Worker(new URL("./export-worker.ts", import.meta.url))` | `export-worker.js` |
 | `dist/kiwi/fig/session/client.js` | `new Worker(new URL("./worker.ts", import.meta.url))` | `worker.js` |
 
-全量扫过 core 的 dist，**只有这两处**。但只要构建引到 core 根导出，就必然在这一步挂：
+全量扫过三个包的 dist，**只有 core 这两处**（`scene-graph` 和 `vue` 的 dist 没有同类问题）。
+但只要构建引到 core 根导出，就必然在这一步挂：
 `Could not resolve entry module ".../export-worker.ts"`。
 
 **解法**（已写进 `shell/vite.config.ts`）：用 Vite 的 `resolve.alias` 在 pre 阶段把 worker 的 `.ts` 改回 `.js`：
