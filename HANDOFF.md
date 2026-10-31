@@ -16,10 +16,11 @@
 | `docs/competitive-review.md` | ✅ 定稿 | 竞品核查，划定边界 |
 | `docs/EXECUTION_SPEC.md` | ⚠️ **已作废** | v2 自研画布方案留档，**整份都不要读、不要施工**（见下方警告） |
 | `docs/sdk-notes.md` | ✅ **本机实测结论** | 154 个节点字段清单（机器生成）+ 文本序列化可行性结论 + 最小壳踩过的 7 个坑 |
-| `shell/` | ✅ **可直接运行，已本机验证** | Vite + Vue3 + TS 最小壳；typecheck / build / render-check / serialize-probe 四项全绿 |
+| `shell/` | ✅ **可直接运行，已本机验证** | Vite + Vue3 + TS 最小壳；typecheck / build / render-check / serialize-probe / 浏览器渲染 五项全绿 |
 | `scripts/gen-field-list.py` | ✅ 工具 | 从 `.d.ts` 机器生成字段清单 |
 
-所以云电脑这趟**不是从零摸底，是核对 + 补浏览器取证**。`docs/sdk-notes.md` §8 已经列好 8 条待核对项，照着跑就行。
+所以云电脑这趟**不是从零摸底，是核对 + 补浏览器取证**。
+`docs/sdk-notes.md` §8 列了 8 条待核对项（都已在本机验证过），照着跑一遍确认在自己机器上也成立即可。
 
 ### ⚠️ 关于 `docs/EXECUTION_SPEC.md`
 
