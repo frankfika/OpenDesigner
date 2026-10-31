@@ -58,8 +58,9 @@
 - git 配置好 user.name / user.email
 
 【唯一任务：Phase 0 核对与浏览器取证】
-照 docs/sdk-notes.md §8 的 8 条待核对项逐条执行，每条把**真实命令和真实输出**
-追加到 docs/sdk-notes.md（不许写「应该可以」，不许静默改写已核实的结论）：
+照 docs/sdk-notes.md §8 的待核对项逐条执行（§8 是准，下面是执行清单），
+每条把**真实命令和真实输出**追加到 docs/sdk-notes.md
+（不许写「应该可以」，不许静默改写已核实的结论）：
 
 1. 核对版本：npm ls @open-pencil/core @open-pencil/scene-graph @open-pencil/vue canvaskit-wasm vue
    —— 期望 0.16.0 / 0.16.0 / 0.16.0 / 0.42.0 / 3.5.44；不一致就报 ❌ 并说明
@@ -69,22 +70,32 @@
 5. cd shell && npm run render-check  必须出 PNG 且非空，报告字节数
 6. cd shell && npm run serialize-probe  必须往返无字段丢失，贴输出
 7. 浏览器取证：cd shell && npm run dev，打开页面，截图证明画出了矩形。
-   画布走 WebGL2，无 GPU 环境下很可能失败：
-   - 失败就如实报告，把 console 报错贴出来，标 ❌ + 原因
+   - 实测无头 Chromium（SwiftShader）的 WebGL2 是可用的，正常应该能画出来
+   - 如果出来是**白页** + console 报 "does not provide an export named 'default'"，
+     那是 vite.config.ts 里 optimizeDeps.exclude 的问题，**不是** GPU 问题
+     （本仓库已修好，别改回去；细节见 docs/sdk-notes.md §5 坑 E）
+   - 兜底路径：npm run build && npm run preview，这条不过 dev 的依赖预打包
+   - 还是不行就如实报告，把 console 报错贴出来，标 ❌ + 原因
    - 不许伪造截图、不许用别的东西冒充画布
    - 注意 5 号（Node 无头渲染）不依赖 GPU，它通过就说明引擎本身能画
 8. 核对字段数：python3 scripts/gen-field-list.py \
      shell/node_modules/@open-pencil/scene-graph/dist /tmp/field-list.md
    —— 期望 154 个节点字段；不一致就报 ❌ 并 diff 差异
+9. 核对官方文档可达（对应 sdk-notes.md §8 第 8 条）：
+   for u in getting-started guides/custom-editor-shell architecture; do
+     curl -sS -o /dev/null -w "%{http_code} $u\n" "https://openpencil.dev/programmable/sdk/$u"
+   done
+   —— 期望三个都是 200；不是 200 就报 ❌
 
 【如果构建挂了】
-大概率是 vite.config.ts 里那三处配置被动了或被删了
-（wasm 落根 / 上游 worker .ts 后缀 / esbuild target es2022）。
-这三个坑的详细说明在 docs/sdk-notes.md §5，**不要删配置**，改之前先读那一节。
+大概率是 vite.config.ts 里的配置被动了或被删了：
+wasm 落根 / 上游 worker .ts 后缀 / esbuild target es2022 /
+**别把 canvaskit-wasm 加回 optimizeDeps.exclude**。
+这几个坑的详细说明在 docs/sdk-notes.md §5，**不要删配置**，改之前先读那一节。
 还是挂就把完整报错贴出来。
 
 【验收】
-- docs/sdk-notes.md 里 8 条每条都有 ✅/❌ + 真实输出
+- docs/sdk-notes.md 里 §8 的待核对项每条都有 ✅/❌ + 真实输出
 - git 提交：每个大步骤一个 commit，message 用中文写清做了什么
 - 最后输出 PASS/FAIL 清单
 
@@ -110,7 +121,8 @@
 
 - **mmx CLI 不在云上**：mmx 是本机的。素材生成类任务（生图/语音/视频）别派给云电脑；MiniMax API key 也不要写进仓库
 - **push 权限**：云电脑默认推不了 frankfika 的仓库。要它推，给它一个只授权这一个 repo 的 fine-grained PAT（设过期时间），或让它产出 patch 由你本机推
-- **没有 GPU 是常态**：WebGL2 画布在无头环境大概率失败。`npm run render-check` 走 Node 侧无头渲染，**不依赖 GPU**，这是判断「引擎能不能画」的可靠证据；浏览器截图算加分项，不算必需项
+- **没有 GPU 不是问题**：实测无头 Chromium（SwiftShader）的 WebGL2 可用，浏览器渲染能取证。
+  真出问题多半是 `vite.config.ts` 被改坏了（见 docs/sdk-notes.md §5 坑 E），不是环境
 - **它干不完的别硬塞**：Phase 0 核对是机械活，适合云电脑；**写 v3 执行手册（EXECUTION_SPEC v3）是判断型工作，拿回本机做**
 
 ---

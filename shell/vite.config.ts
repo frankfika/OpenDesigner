@@ -65,8 +65,10 @@ export default defineConfig({
     target: 'es2022'
   },
   optimizeDeps: {
-    // canvaskit-wasm 自带 wasm 加载逻辑，交给它自己处理，不要预打包
-    exclude: ['canvaskit-wasm'],
+    // ⚠️ 不要把 canvaskit-wasm 放进 optimizeDeps.exclude。
+    // 它是 CJS（module.exports = CanvasKitInit），被排除后 Vite 会原样当 ESM 送出去，
+    // dev server 直接报 "does not provide an export named 'default'"，页面全白。
+    // 排除它只对 build 成立，dev 必须让 Vite 正常预打包（esbuild 会补好 default 导出）。
     esbuildOptions: {
       target: 'es2022'
     }

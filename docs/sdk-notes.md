@@ -414,11 +414,37 @@ core 的 dist 里有 `.js` 文件，但引用时**漏改了扩展名**：
 
 `npm run dev` 会带着这个错误启动然后死掉。**解法**：`esbuild.target` 和 `optimizeDeps.esbuildOptions.target` 都设 `es2022`。
 
-### 坑 D：画布要 WebGL2
+### 坑 D：画布要 WebGL2 —— 但无头浏览器通常有
 
 `CanvasSurface` 用 WebGL2 建 surface，失败时会在 canvas 上标 `data-surface-error="webgl"`
-（`@open-pencil/vue/dist/canvas/CanvasRoot.js`：`canvas.dataset.surfaceError = "webgl"`）。
-无头浏览器没有 GPU 时会挂——**这是云电脑最容易卡住的地方**。
+（`@open-pencil/vue/dist/canvas/CanvasRoot.js`：`canvas.dataset.surfaceError = "webgl"`；
+主 surface 是 `canvas.getContext("webgl2") ?? null`，**没有 webgl1 兜底**）。
+
+**实测结论（推翻「无 GPU 就一定挂」的悲观预期）**：无头 Chromium 走 SwiftShader 软件光栅化，
+**WebGL2 是可用的**（`glRenderer: "WebKit WebGL"`），画布正常渲染，蓝色矩形像素级正确。
+所以「浏览器渲染取不到证」通常不是 GPU 的锅，先查配置（见坑 E）。
+
+### 坑 E：dev server 白屏 —— `optimizeDeps.exclude` 不能排除 canvaskit-wasm
+
+**这个坑最坑**：dev server 能起来、`/` 返回 200、wasm 也发得出去，但**页面全白**，console 报：
+
+```
+The requested module '/node_modules/canvaskit-wasm/bin/canvaskit.js'
+does not provide an export named 'default'
+```
+
+原因：`canvaskit-wasm` 是 CJS（`module.exports = CanvasKitInit`）。
+一旦写进 `optimizeDeps.exclude`，Vite 就不再预打包它，直接把原始 CJS 当 ESM 送出去 → 没有 default 导出。
+
+**症状迷惑性极强**：build 出来是好的（Rollup 自己处理 CJS），只有 dev 白屏。
+很容易误判成「云电脑环境问题」或「GPU 问题」，实际是自己配的。
+
+**解法**：**不要排除它**，让 Vite 正常预打包（esbuild 会补好 default 导出）。
+本仓库的 `shell/vite.config.ts` 已按此修正——**别改回去**。
+
+> 若用 `npm run preview`（先 build 再 preview）取证，则完全绕过这个坑：
+> 生产产物里 canvaskit 已被 Rollup 正确处理，preview 路径本来就能正常渲染。
+> **两条路都验过了**：修复后的 dev 与 preview 均渲染出正确的蓝色矩形。
 
 ### 解法：Node 侧无头渲染，不需要浏览器
 
@@ -511,7 +537,8 @@ python3 scripts/gen-field-list.py \
 | `npm run serialize-probe` | ✅ PASS，5 节点 × 154 字段 = 770 字段，往返零丢失，`sample.od.json` 26,953 bytes |
 | dev server `/canvaskit.wasm` | ✅ 200 / `application/wasm` / 7,317,345 bytes / 魔数 `00 61 73 6d` |
 | dev server `/` 与 `/src/main.ts` | ✅ 200 |
-| 浏览器实际渲染 | ⏳ **本机无 GPU，未验证** —— 留给云电脑 |
+| **浏览器实际渲染（无头 Chromium）** | ✅ **已验证**：canvas 1280×752、WebGL2 可用（SwiftShader）、`surfaceError` 为 null，截图里蓝色矩形 38,400 像素、bbox x 80–319 / y 128–287 = 正好 240×160（y 偏移 48 是顶栏） |
+| 浏览器取证的两条路 | ✅ 都通：`npm run dev`（修复后）与 `npm run preview`（先 build） |
 
 serialize-probe 的实际输出：
 
@@ -537,7 +564,7 @@ serialize-probe 的实际输出：
 
 云电脑**只需核对下面这些**，不需要重做分析。每条都要在 `docs/sdk-notes.md` 里标 ✅/❌ 并附真实输出。
 
-**已在本机验证过的**（1–5、7）：云电脑重跑一遍确认在自己机器上也成立即可，重点是贴真实输出。
+**已在本机验证过的（1–8 全部）**：云电脑重跑一遍确认在自己机器上也成立即可，重点是贴真实输出。
 
 | # | 待核对 | 怎么验 | 本机结果 |
 |---|---|---|---|
@@ -546,16 +573,21 @@ serialize-probe 的实际输出：
 | 3 | `npm run build` 通过，wasm 落根 | 贴完整输出，确认 `dist/canvaskit.wasm` 在根目录 | ✅ PASS |
 | 4 | `npm run render-check` 出 PNG | 贴输出 + 报告 PNG 字节数 | ✅ PASS，582 bytes |
 | 5 | `npm run serialize-probe` 往返无丢失 | 贴输出 | ✅ PASS，770 字段零丢失 |
-| 6 | **浏览器壳能打开并画出矩形** | `npm run dev` + 截图 | ⏳ **未验证**，见下 |
+| 6 | **浏览器壳能打开并画出矩形** | `npm run dev` + 截图 | ✅ **已验证**，见 §7.1 |
 | 7 | 字段数是 154 | `python3 scripts/gen-field-list.py shell/node_modules/@open-pencil/scene-graph/dist /tmp/field-list.md` | ✅ 154 |
 | 8 | 官方文档三个 URL 可达 | `curl -o /dev/null -w '%{http_code}'` | ✅ 全 200 |
 
 ### 6 号（浏览器渲染）的注意事项
 
-- 画布走 **WebGL2**，无 GPU 环境大概率失败
-- 失败就**如实报告**，把 console 报错贴出来，标 ❌ + 原因
+- 画布走 **WebGL2**；实测无头 Chromium（SwiftShader）**可用**，不要预设「无 GPU 就一定失败」
+- **白屏先查配置，不是查环境**：如果 `npm run dev` 出来是白页 + console 报
+  `does not provide an export named 'default'`，那是 `vite.config.ts` 里的
+  `optimizeDeps.exclude` 把 canvaskit-wasm 排除掉了，**不是** GPU 问题。
+  本仓库已修好，别改回去（见 §5 坑 E）
+- 兜底取证路径：`npm run build && npm run preview`，这条不经过 dev 的依赖预打包
+- 取不到就**如实报告**，把 console 报错贴出来，标 ❌ + 原因
 - **不许伪造截图**，不许用别的东西冒充画布
-- 退而求其次的可靠证据是 4 号（Node 无头渲染，完全不依赖 GPU）
+- `npm run render-check`（Node 侧无头渲染）完全不依赖 GPU，是最可靠的兜底证据
 
 ### 如果云电脑上构建挂了
 

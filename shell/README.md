@@ -31,6 +31,21 @@ npm run dev        # 浏览器壳 → http://localhost:5173
 2. **上游 core@0.16.0 的打包 bug** —— dist 里 `new Worker(new URL("./xxx.ts", ...))` 漏改扩展名
    → `resolve.alias` 把 worker 的 `.ts` 改回 `.js`（规则只认 worker 文件名，别写成 `/\.ts$/`）
 3. **top-level await** —— Vite 默认 esbuild target 是 es2020，不认 → target 提到 es2022
+4. **别把 canvaskit-wasm 放进 `optimizeDeps.exclude`** —— 它是 CJS，排除后 Vite 不预打包，
+   dev server 直接白页：`does not provide an export named 'default'`。
+   build 正常、dev 白屏，症状极具迷惑性（见 `docs/sdk-notes.md` §5 坑 E）
+
+## 浏览器取证
+
+两条路都验过能用：
+
+```bash
+npm run dev                              # 开发服务器
+npm run build && npm run preview         # 生产产物预览（绕过 dev 的依赖预打包）
+```
+
+无头 Chromium 的 WebGL2（SwiftShader）可用，矩形能正常渲染。
+若 dev 白屏，先查 `vite.config.ts`，不是查环境。
 
 ## 目录
 
