@@ -36,6 +36,16 @@ npm run dev        # 浏览器壳 → http://localhost:5173
    dev server 直接白页：`does not provide an export named 'default'`。
    build 正常、dev 白屏，症状极具迷惑性（见 `docs/sdk-notes.md` §5 坑 E）
 
+另外，**`package.json` 里的 `overrides` 块别删**：
+
+```json
+"overrides": { "canvaskit-wasm": "0.42.0" }
+```
+
+`@open-pencil/core` 自己依赖 `canvaskit-wasm@0.41.1`，不收敛的话 node_modules 里会有两个版本，
+而 JS 加载器与 wasm 二进制会来自不同版本（坑 I）。装完用
+`npm ls canvaskit-wasm` 确认只有一个 0.42.0。
+
 ## 浏览器取证
 
 两条路都验过能用：
