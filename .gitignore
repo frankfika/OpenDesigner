@@ -3,6 +3,10 @@ dist/
 .playwright-mcp/
 .DS_Store
 
+# shell 的本地产物
+shell/out/
+*.local
+
 # 竞品桌面应用解包产物（专有代码 / 受版权保护文档，禁止入库）
 rea/
 *.asar

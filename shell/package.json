@@ -1,0 +1,27 @@
+{
+  "name": "opendesigner-shell",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit",
+    "render-check": "node scripts/render-check.mjs",
+    "serialize-probe": "node scripts/serialize-probe.mjs"
+  },
+  "dependencies": {
+    "@open-pencil/core": "0.16.0",
+    "@open-pencil/scene-graph": "0.16.0",
+    "@open-pencil/vue": "0.16.0",
+    "canvaskit-wasm": "0.42.0",
+    "vue": "3.5.44"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "5.2.4",
+    "typescript": "5.8.3",
+    "vite": "6.3.5",
+    "vue-tsc": "2.2.10"
+  }
+}
