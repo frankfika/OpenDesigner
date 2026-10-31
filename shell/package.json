@@ -23,5 +23,8 @@
     "typescript": "5.8.3",
     "vite": "6.4.5",
     "vue-tsc": "2.2.10"
+  },
+  "overrides": {
+    "canvaskit-wasm": "0.42.0"
   }
 }

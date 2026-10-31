@@ -65,6 +65,8 @@
 
 1. 核对版本：npm ls @open-pencil/core @open-pencil/scene-graph @open-pencil/vue canvaskit-wasm vue
    —— 期望 0.16.0 / 0.16.0 / 0.16.0 / 0.42.0 / 3.5.44；不一致就报 ❌ 并说明
+   —— 另外跑 `npm ls canvaskit-wasm`，期望**只有 0.42.0 一个版本**（core 和 vue 都 deduped、
+      顶层显示 overridden）。出现 0.41.1 说明 overrides 没生效，报 ❌（见 docs/sdk-notes.md §5 坑 I）
 2. cd shell && npm install
 3. cd shell && npm run typecheck     贴完整输出
 4. cd shell && npm run build         贴完整输出（wasm 要落到产物根 dist/canvaskit.wasm）

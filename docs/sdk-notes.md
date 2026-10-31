@@ -22,10 +22,14 @@ PLAN v3 的风险 #2（文本序列化保真度）**不构成红线**，但它�
 | `@open-pencil/core` | `0.16.0` | 引擎，framework-agnostic，无 peer 依赖 |
 | `@open-pencil/scene-graph` | `0.16.0` | 文档模型 |
 | `@open-pencil/vue` | `0.16.0` | peer：`vue ^3.5.41`、`canvaskit-wasm >=0.41.1` |
-| `canvaskit-wasm` | `0.42.0` | 渲染后端（Skia WASM） |
+| `canvaskit-wasm` | `0.42.0` | 渲染后端（Skia WASM）。**用 npm overrides 强制唯一版本**，见 §5 坑 I |
 | `vue` | `3.5.44` | 满足 `^3.5.41` |
 
 npm registry 实查（2026-10-31）：三个 `@open-pencil/*` 的 `latest` 均为 `0.16.0`，发布于 2026-10-14；版本历史 `0.13.2 → 0.14.0 → 0.15.0 → 0.15.1 → 0.16.0`。
+
+> ⚠️ **`@open-pencil/core` 自己依赖 `canvaskit-wasm@0.41.1`**。不设 overrides 的话，
+> node_modules 里会同时存在 0.41.1 和 0.42.0 两份，且 JS 加载器与 wasm 二进制来自不同版本。
+> `shell/package.json` 已加 `"overrides": { "canvaskit-wasm": "0.42.0" }` 收敛 —— **别删**。
 
 官方文档三个 URL 实测均 **HTTP 200**：
 
@@ -452,16 +456,16 @@ does not provide an export named 'default'
 
 **云电脑先跑这个**——它能证明「引擎能画」且完全绕开 GPU 问题；浏览器壳（`npm run dev`）作为第二道验证。
 
-### 坑 E：Vue 版本
+### 坑 F：Vue 版本
 
 `@open-pencil/vue@0.16.0` 要求 `vue ^3.5.41`。Vite 的 `vue-ts` 模板给的版本可能偏低，装完先 `npm ls vue` 看一眼。
 
-### 坑 F：`Color` 必带 `a`
+### 坑 G：`Color` 必带 `a`
 
 `Color` 是 `{ r, g, b, a }`，四个字段全是必填。少写 `a` 会被 `vue-tsc` 拦下：
 `Property 'a' is missing ... but required in type 'Color'`。
 
-### 坑 G：变量绑定的字段路径有固定格式
+### 坑 H：变量绑定的字段路径有固定格式
 
 `graph.bindVariable(nodeId, field, variableId)` 的 `field` 不是随便一个节点字段名：
 
@@ -474,6 +478,53 @@ does not provide an export named 'default'
 
 写 `fills` 会直接抛 `Unknown binding field "fills"`。
 来源：字段集合在 `scene-graph/src/variables/fields.ts`，校验与颜色路径解析在 `scene-graph/src/variables.ts` 的 `bindVariable()`。
+
+### 坑 I：`canvaskit-wasm` 会被装出**两个版本**，JS 和 wasm 跨版本配对
+
+`@open-pencil/core@0.16.0` 依赖 `canvaskit-wasm@0.41.1`，而顶层我们锁的是 `0.42.0`
+（peer 要求 `>=0.41.1`）。**npm 不会自动把这两个统一**，于是 node_modules 里会有两份：
+
+```
+node_modules/canvaskit-wasm/bin/canvaskit.wasm                        7,317,345 B  md5 b853e111…
+node_modules/@open-pencil/core/node_modules/canvaskit-wasm/bin/canvaskit.wasm
+                                                                       7,159,342 B  md5 10d8a560…
+```
+
+危险的地方在于**它俩分别走了不同的路径**（见 `core/dist/canvaskit.js`）：
+
+```js
+import CanvasKitInit from "canvaskit-wasm";            // ← 按 core 的位置解析 → 嵌套的 0.41.1
+const ckPath = import.meta.resolve("canvaskit-wasm");
+const base = "env" in import.meta ? import.meta.env.BASE_URL : "/";
+                                                   // ← wasm 二进制从 BASE_URL 取 → dist 根目录那份 0.42.0
+```
+
+也就是**跑的是「0.41.1 的 JS 加载器 + 0.42.0 的 wasm 二进制」**。
+目前实测能正常渲染（浏览器 + Node 无头都过），但这是**碰巧兼容**，不是设计如此——
+CanvasKit 的 JS 与 wasm 是配套产物，跨版本可能哪天就炸。
+
+**解法**：`shell/package.json` 里用 npm overrides 强制收敛成一份：
+
+```json
+"overrides": {
+  "canvaskit-wasm": "0.42.0"
+}
+```
+
+装完确认没有第二份了：
+
+```bash
+npm ls canvaskit-wasm
+# 期望：@open-pencil/core → 0.42.0 deduped，@open-pencil/vue → 0.42.0 deduped，顶层 0.42.0 overridden
+find node_modules -name canvaskit.wasm -path '*canvaskit-wasm/bin/*' | wc -l
+# 期望：1（bin/ 下的 full/ 和 profiling/ 是同版本的其它构建，不算）
+```
+
+> 注意 `bin/full/canvaskit.wasm`（8.2 MB）和 `bin/profiling/canvaskit.wasm`（9.6 MB）
+> 是同版本的其它构建产物，**不算版本分叉**。装根目录那份才是我们要的。
+>
+> 加了 overrides 之后，build 产物里 canvaskit JS 的 chunk 哈希会变
+> （`index-ClN4JozJ.js` → `index-mj2SHsdD.js`），体积差约 10 KB —— 那是 0.41.1→0.42.0 的真实差异，不是 bug。
 
 ### 其它已确认的 API 事实
 
@@ -542,7 +593,7 @@ python3 scripts/gen-field-list.py \
 
 | 检查 | 结果 |
 |---|---|
-| `npm run typecheck` | ✅ PASS（首次报 `Property 'a' is missing in type 'Color'`，已修，见坑 F） |
+| `npm run typecheck` | ✅ PASS（首次报 `Property 'a' is missing in type 'Color'`，已修，见坑 G） |
 | `npm run build` | ✅ PASS，`dist/canvaskit.wasm` 落在产物根（7,317.35 kB） |
 | `npm run render-check` | ✅ PASS，`shell/out/render-check.png`，582 bytes，矩形 240×160 已实际渲染出蓝色块 |
 | `npm run serialize-probe` | ✅ PASS，5 节点 × 154 字段 = 770 字段，往返零丢失，`sample.od.json` 26,953 bytes |
@@ -551,6 +602,8 @@ python3 scripts/gen-field-list.py \
 | **浏览器实际渲染（无头 Chromium）** | ✅ **已验证**：canvas 1280×752、WebGL2 可用（SwiftShader）、`surfaceError` 为 null，截图里蓝色矩形 38,400 像素、bbox x 80–319 / y 128–287 = 正好 240×160（y 偏移 48 是顶栏） |
 | 浏览器取证的两条路 | ✅ 都通：`npm run dev`（修复后）与 `npm run preview`（先 build） |
 | 去掉 exclude 之后的 build | ✅ PASS（2m21s），产物哈希与之前完全一致，`dist/canvaskit.wasm` 仍在根目录 |
+| 依赖安全（`npm audit`） | 7 条（3 moderate / 4 high），全部是上游传递依赖，处置理由见 §7.1.2，**不要 `npm audit fix --force`** |
+| `canvaskit-wasm` 版本收敛 | ✅ 用 npm overrides 强制单一 0.42.0，消除「0.41.1 的 JS + 0.42.0 的 wasm」跨版本配对，见 §5 坑 I |
 | **从 git bundle 全新 clone 后重跑** | ✅ **全链路 PASS**：clone → `npm install` → typecheck → build → render-check → serialize-probe → dev → 浏览器，全部通过，且 build 产物哈希与原仓库逐字节一致 |
 | 字段清单脚本在干净环境的重生成结果 | ✅ 与仓库已提交文档**逐条零漂移**：§3.1 = 154 行（115+32+2+1+4），§3.2 = 12 行，字段名与类型全部一致 |
 
