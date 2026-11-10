@@ -1,0 +1,21 @@
+{
+  "name": "@opendesigner/od-ops",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "od-ops：面向 agent 的文档操作 DSL（insert/update/delete/move/set/reorder/batch）",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@opendesigner/od-format": "*",
+    "@open-pencil/scene-graph": "0.16.0",
+    "zod": "4.6.7"
+  }
+}
