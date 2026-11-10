@@ -17,8 +17,8 @@
  * | 4 | IO 错误 |
  * | 5 | 内部错误（bug） |
  */
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, extname, resolve } from 'node:path'
+import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from 'node:fs'
+import { basename, dirname, extname, join, resolve } from 'node:path'
 
 import {
   OD_FORMAT_PACKAGE_VERSION,
@@ -37,6 +37,9 @@ import {
   type OdDocument,
 } from '@opendesigner/od-format'
 import { inspect, formatInspectText } from '@opendesigner/od-format'
+// 资源文件校验要读磁盘、算 sha1 —— Node 专属，所以走子路径单独引，
+// 不让主入口（浏览器也要用）沾上 node: 内置模块。
+import { validateAssetFiles } from '@opendesigner/od-format/node-assets'
 
 import {
   dumpEngine,
@@ -44,6 +47,17 @@ import {
   loadEngine,
   type EngineCarrier,
 } from './engine-carrier.js'
+import { OdCliError, type CliErrorKind } from './cli-error.js'
+import {
+  EXPORT_FORMATS,
+  exportOd,
+  extensionOf,
+  isBinaryFormat,
+  isExportFormat,
+  type ExportFormat,
+} from './export.js'
+import { applyOpsToDocument, formatIssues } from './apply.js'
+import { startMcpServer } from './mcp.js'
 
 const EXIT_OK = 0
 const EXIT_USAGE = 1
@@ -78,6 +92,7 @@ const BOOLEAN_FLAGS: ReadonlySet<string> = new Set([
   'strict',
   'no-assets',
   'list',
+  'dry-run',
 ])
 
 /** 从 argv 里抽出全局选项，剩下的返回命令与位置参数。 */
@@ -146,6 +161,9 @@ const USAGE = `od —— OpenDesigner 的文档格式命令行（od-format ${OD_
   od validate [options] <input>            校验文档
   od migrate [options] <input> [output]    版本迁移
   od schema [options]                      导出公开 JSON Schema
+  od export [options] <input>              导出可见产物（SVG / HTML / PNG …）
+  od apply [options] <input> <ops>         应用操作脚本（agent 用）
+  od mcp <input>                           启动 MCP server（stdio）
 
 全局选项:
   --help, -h      打印用法
@@ -186,6 +204,19 @@ schema 选项:
   --version <v>   版本（默认当前）
   --out <path>    输出文件（默认 stdout）
   --list          列出所有已发布的 schema 版本
+
+export 选项:
+  --to <fmt>        svg | html | tailwind | jsx | png | pdf
+  --out <path>      输出文件（默认写 stdout；png / pdf 必须给 --out）
+  --node <odId>     导出某个节点及其子树（省略则导出整页；多页文档必须给）
+  --scale <n>       PNG 的缩放倍数（默认 1）
+
+apply 选项:
+  --out <path>    输出文件（默认原地写回输入）
+  --dry-run       只报告将应用什么，不写文件
+
+mcp 用法:
+  od mcp <file.od.json>    把文档暴露给 agent（MCP server，stdio 传输）
 `
 
 /** 按扩展名推断载体格式。 */
@@ -439,10 +470,12 @@ function cmdValidate(options: Record<string, string | boolean>, positional: stri
   const { doc, raw } = readOd(input)
   assertVersionSupported(doc.version, input)
   const strict = options.strict === true
+  const assetsDir = resolve(dirname(resolve(input)))
   const result = validate(raw, {
     strict,
     noAssets: options['no-assets'] === true,
-    assetsDir: resolve(dirname(resolve(input))),
+    assetsDir,
+    checkAssets: (d) => validateAssetFiles(d, assetsDir),
   })
 
   const payload = {
@@ -532,6 +565,231 @@ function cmdSchema(options: Record<string, string | boolean>): void {
 }
 
 // ---------------------------------------------------------------------------
+// 导出 / 应用 / MCP
+// ---------------------------------------------------------------------------
+
+/**
+ * 原子写盘：先写同目录的临时文件，再 `rename` 过去。
+ *
+ * `rename` 在同一文件系统内是原子的 —— 读的人要么看到旧文件，要么看到新文件，
+ * 不会看到「写了一半」。临时文件必须在**同一目录**（跨目录 rename 不原子）。
+ *
+ * 返回错误信息（`undefined` = 写成功）；**不直接退出** —— 资源文件写失败
+ * 不该让整个导出失败，调用方自己决定怎么处理。
+ */
+function writeAtomicSafe(file: string, data: string | Uint8Array): string | undefined {
+  const full = resolve(file)
+  const dir = dirname(full)
+  if (!existsSync(dir)) {
+    return `输出目录不存在：${dir}`
+  }
+  const tmp = join(
+    dir,
+    `.${basename(full)}.od-tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+  )
+  try {
+    writeFileSync(tmp, data)
+    renameSync(tmp, full)
+    return undefined
+  } catch (error) {
+    try {
+      if (existsSync(tmp)) unlinkSync(tmp)
+    } catch {
+      /* 临时文件删不掉就算了 —— 主错误更有价值 */
+    }
+    return error instanceof Error ? error.message : String(error)
+  }
+}
+
+/** 原子写盘，失败即退出（退出码 4 = IO 错）。 */
+function writeAtomic(file: string, data: string | Uint8Array): void {
+  const error = writeAtomicSafe(file, data)
+  if (error === undefined) return
+  if (error.startsWith('输出目录不存在')) {
+    fail(EXIT_IO, error, undefined, '先建目录，或换一个 --out 路径')
+  }
+  fail(EXIT_IO, `写入失败：${file}`, error)
+}
+
+/** 错误类别 → 退出码。退出码契约的唯一事实源在这里。 */
+function exitCodeOf(kind: CliErrorKind): number {
+  switch (kind) {
+    case 'usage':
+      return EXIT_USAGE
+    case 'validation':
+      return EXIT_VALIDATION
+    case 'unsupported':
+      return EXIT_UNSUPPORTED
+    case 'io':
+      return EXIT_IO
+    case 'internal':
+    default:
+      return EXIT_INTERNAL
+  }
+}
+
+async function cmdExport(options: Record<string, string | boolean>, positional: string[]): Promise<void> {
+  const input = positional[0]
+  if (!input) {
+    fail(EXIT_USAGE, 'export 缺少输入文件', undefined, '用法：od export <input.od.json> --to <fmt>')
+  }
+
+  const to = options.to as string | undefined
+  if (!to) {
+    fail(EXIT_USAGE, 'export 缺少 --to <fmt>', undefined, `可用格式：${EXPORT_FORMATS.join(' | ')}`)
+  }
+  if (!isExportFormat(to)) {
+    fail(EXIT_USAGE, `不支持的导出格式："${to}"`, undefined, `可用格式：${EXPORT_FORMATS.join(' | ')}`)
+  }
+  const format: ExportFormat = to
+
+  const out = options.out as string | undefined
+  if (!out && isBinaryFormat(format)) {
+    fail(
+      EXIT_USAGE,
+      `${format} 是二进制格式，必须用 --out 指定输出文件`,
+      undefined,
+      `例：od export ${input} --to ${format} --out out.${extensionOf(format)}`
+    )
+  }
+
+  let scale = 1
+  if (options.scale !== undefined) {
+    const raw = options.scale
+    const parsed = typeof raw === 'number' ? raw : Number(raw)
+    if (!Number.isFinite(parsed) || parsed <= 0) {
+      fail(EXIT_USAGE, `--scale 需要一个正数，收到 "${String(raw)}"`)
+    }
+    scale = parsed
+  }
+
+  const { doc } = readOd(input)
+  assertVersionSupported(doc.version, input)
+
+  // 外部资源：图片字节要从 assets/ 读进来，否则图是空的
+  const assetsDir = resolve(dirname(resolve(out ?? input)), 'assets')
+  const assets = Object.keys(doc.assets).length > 0 ? loadAssets(doc, assetsDir) : undefined
+
+  const payload = await exportOd(doc, {
+    format,
+    nodeId: options.node as string | undefined,
+    scale,
+    fileName: out ? basename(resolve(out)) : undefined,
+    assets,
+  })
+
+  if (!out) {
+    // stdout 里只能有导出物本身 —— 日志一律走 stderr。
+    // `--json` 时 stdout 必须是**一个 JSON 文档**（全局契约），产物塞进 data 字段。
+    if (options.json === true) {
+      const data =
+        typeof payload.data === 'string'
+          ? payload.data
+          : Buffer.from(payload.data).toString('base64')
+      process.stdout.write(
+        `${JSON.stringify(
+          { ok: true, command: 'export', file: input, format, binary: payload.binary, data },
+          null,
+          2
+        )}\n`
+      )
+      return
+    }
+    process.stdout.write(typeof payload.data === 'string' ? payload.data : Buffer.from(payload.data))
+    return
+  }
+
+  writeAtomic(out, payload.data)
+  for (const asset of payload.assets) {
+    const relative = asset.path.replace(/^\/+/, '')
+    if (relative.split('/').includes('..')) continue
+    // 资源文件写失败**不**让整个导出失败 —— 主产物已经落盘了。
+    const assetError = writeAtomicSafe(join(dirname(resolve(out)), relative), asset.content)
+    if (assetError !== undefined) {
+      process.stderr.write(`od: 资源文件写入失败：${asset.path}（${assetError}）\n`)
+    }
+  }
+
+  if (options.json === true) {
+    process.stdout.write(
+      `${JSON.stringify({ ok: true, command: 'export', file: input, format, out }, null, 2)}\n`
+    )
+    return
+  }
+  process.stdout.write(`✓ 已导出 ${out}（${format}）\n`)
+}
+
+async function cmdApply(options: Record<string, string | boolean>, positional: string[]): Promise<void> {
+  const input = positional[0]
+  if (!input) {
+    fail(EXIT_USAGE, 'apply 缺少输入文件', undefined, '用法：od apply <input.od.json> <ops.json>')
+  }
+  const opsFile = positional[1]
+  if (!opsFile) {
+    fail(EXIT_USAGE, 'apply 缺少操作脚本', undefined, '用法：od apply <input.od.json> <ops.json>')
+  }
+
+  const { doc } = readOd(input)
+  assertVersionSupported(doc.version, input)
+
+  let opsInput: unknown
+  try {
+    opsInput = parseJsonc(readInput(opsFile))
+  } catch (error) {
+    fail(
+      EXIT_VALIDATION,
+      `${opsFile} 不是合法的 JSONC`,
+      error instanceof Error ? error.message : String(error)
+    )
+  }
+
+  const dryRun = options['dry-run'] === true
+  const outcome = await applyOpsToDocument(doc, opsInput, { dryRun })
+
+  const target = (options.out as string | undefined) ?? input
+  if (!dryRun) {
+    if (!outcome.doc) {
+      fail(EXIT_INTERNAL, 'apply 没有返回应用后的文档', 'od-ops 的 applyOps 应该返回 doc')
+    }
+    writeAtomic(target, stringifyOd(outcome.doc))
+  }
+
+  const payload = {
+    ok: outcome.ok,
+    command: 'apply',
+    file: input,
+    out: dryRun ? undefined : target,
+    dryRun,
+    applied: outcome.applied,
+    issues: outcome.issues,
+  }
+
+  if (options.json === true) {
+    process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`)
+    return
+  }
+  if (outcome.issues.length > 0) {
+    process.stdout.write(`${formatIssues(outcome.issues)}\n`)
+  }
+  if (dryRun) {
+    process.stdout.write(`dry-run：将应用 ${outcome.applied} 个操作（未写文件）\n`)
+    return
+  }
+  process.stdout.write(`✓ 应用 ${outcome.applied} 个操作 → ${target}\n`)
+}
+
+async function cmdMcp(positional: string[]): Promise<void> {
+  const input = positional[0]
+  if (!input) {
+    fail(EXIT_USAGE, 'mcp 缺少文档文件', undefined, '用法：od mcp <file.od.json>')
+  }
+  if (!existsSync(resolve(input))) {
+    fail(EXIT_IO, `输入文件不存在：${input}`)
+  }
+  await startMcpServer(input)
+}
+
+// ---------------------------------------------------------------------------
 // 入口
 // ---------------------------------------------------------------------------
 
@@ -564,12 +822,24 @@ async function main(): Promise<void> {
     case 'schema':
       cmdSchema(options)
       break
+    case 'export':
+      await cmdExport(options, positional)
+      break
+    case 'apply':
+      await cmdApply(options, positional)
+      break
+    case 'mcp':
+      await cmdMcp(positional)
+      break
     default:
       fail(EXIT_USAGE, `未知命令 "${command}"`, undefined, '跑 `od --help` 看用法')
   }
 }
 
 main().catch((error: unknown) => {
+  if (error instanceof OdCliError) {
+    fail(exitCodeOf(error.kind), error.message, error.detail, error.hint)
+  }
   process.stderr.write(`od: 内部错误\n${error instanceof Error ? error.stack : String(error)}\n`)
   process.exit(EXIT_INTERNAL)
 })
