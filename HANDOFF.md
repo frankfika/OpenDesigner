@@ -13,11 +13,11 @@
 ```bash
 git clone https://github.com/frankfika/OpenDesigner.git
 cd OpenDesigner
-git pull /绝对路径/OpenDesigner-phase0.bundle main
+git pull /绝对路径/OpenDesigner-phase1.bundle main
 git push origin main
 ```
 
-推完远端 `main` 会从 `8dafba4` 走到 `200c68b`（快进 13 个 commit，不覆盖任何东西）。
+推完远端 `main` 会从 `bfd8645` 走到 `a4a8379`（快进 21 个 commit，不覆盖任何东西）。
 
 > ⚠️ **别写成 `git fetch <bundle> main`**——那只更新 `FETCH_HEAD`，本地 `main` 没动，
 > 后面 `git push origin main` 会推 0 个 commit，git 还会回 "Everything up-to-date" 看着像成功。
