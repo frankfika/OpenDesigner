@@ -171,7 +171,37 @@ for (const r of knownIssues) {
   console.log(`KNOWN  导出 · ${r.label}：${r.bytes} 字节（上游引擎缺陷，详见 docs/phase2-acceptance.md）`)
 }
 
-// ── 4. od 往返 ────────────────────────────────────────────────────────────
+// ── 4. Agent 出图（JSX → 设计节点） ──────────────────────────────────────
+//
+// 引擎自带 26 个 agent 工具，`render` 工具把 JSX 变成设计节点。
+// 这一步验的是「agent 写的东西真的出现在画布上」——包括中文。
+const layersBeforeAgent = await page.evaluate(
+  () => document.querySelectorAll('.panel.left .item').length
+)
+await page.locator('.jsx-input').fill(
+  '<Frame name="AgentCard" w={320} h={150} bg="#FFFFFF" radius={16}>' +
+    '<Text name="标题" text="agent 出的图" fontSize={22} color="#111111" x={20} y={24} w={280} />' +
+    '<Text name="生僻" text="苗圃图册" fontSize={18} color="#333333" x={20} y={70} w={280} />' +
+    '<Frame name="按钮" w={120} h={40} bg="#4F6BF5" radius={8} x={20} y={100}>' +
+    '<Text name="标签" text="立即体验" fontSize={16} color="#FFFFFF" x={24} y={10} w={100} />' +
+    '</Frame>' +
+    '</Frame>'
+)
+await page.locator('.btn', { hasText: '生成到画布' }).first().click()
+await page.waitForTimeout(6000)
+const agentInfo = await page.evaluate(() => ({
+  message: document.querySelector('.agent-ok')?.textContent?.trim() ?? null,
+  error: document.querySelector('.agent-error')?.textContent?.trim() ?? null,
+  layers: document.querySelectorAll('.panel.left .item').length
+}))
+await page.screenshot({ path: `${outDir}/acceptance-agent.png` })
+record(
+  'Agent 出图 · JSX 变成画布节点',
+  agentInfo.error === null && agentInfo.layers > layersBeforeAgent,
+  `${agentInfo.message ?? agentInfo.error ?? '(无输出)'} · 图层 ${layersBeforeAgent} → ${agentInfo.layers}`
+)
+
+// ── 5. od 往返 ────────────────────────────────────────────────────────────
 const odPath = resolve(outDir, 'roundtrip.od.json')
 const [download] = await Promise.all([
   page.waitForEvent('download', { timeout: 20000 }),
