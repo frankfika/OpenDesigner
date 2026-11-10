@@ -4,6 +4,21 @@
 > 字段清单由 `scripts/gen-field-list.py` 从 `@open-pencil/scene-graph@0.16.0` 的类型定义**机器生成**，不手抄。
 > 云电脑那边的任务是**逐条核对**下面这些结论 + 补齐浏览器实测，不是从零重做一遍。
 
+## 0.0 修正记录（2026-11-10）
+
+本文档的结论被**独立复核并经源码级证据修正过**。按「不许静默改写已核实结论」的规矩，逐条记在这里：
+
+| # | 原结论 | 修正后 | 证据 | 影响 |
+|---|---|---|---|---|
+| 1 | `variableBindingScales` / `variableAssignmentScales` 是派生缓存，**序列化时丢弃** | **必留，原样往返** | 唯一写入口是实例同步/树缩放（`scene-graph/src/variables/units.ts:4-15`），**普通加载不重算**；且参与绑定解算 `value * scale`（`src/variables/bindings.ts:51-52`）。引擎自己的全图 round-trip 也保留它们（`core/src/kiwi/fig/parse/transfer.ts:85-86`） | **静默算错**——scale ≠ 1 时绑定解出的数变了，且不报错 |
+| 2 | `textPicture` 是「C 类 · 直接二进制，需 base64 或外置资产」 | **D1 · 派生缓存，剔除即可** | 它是 Skia 段落快照缓存，失效在 `scene-graph/src/text/picture.ts`，不是资产 | 文件体积与可读性；不该走 base64 分支 |
+| 3 | 派生缓存共 4 个 | **拆成两档：D1 必丢 3 个 + D2 必留 2 个** | 见上 | 分类表 §3.1 已更新 |
+
+**其余结论（154 字段总数、序列化可行性、几何 blob 无损、ID 不语义化、图片外置、`.optional()`）未被推翻**，且经复核加强：字段表 154/154 无遗漏、几何 blob 的 float32 往返有可证明的无损判据（`Math.fround(Number(s)) === f`）。
+
+新增的深度调研见 `docs/engine-semantics.md`（组件/实例/override、自动布局、变量与主题、图片资源、确定性 ID、隐藏状态，含 220 条 `file:line` 引用），
+格式规格见 `docs/od-format-spec.md`。
+
 ## 0. 一句话结论
 
 **文本序列化可行，而且上游已经证明过一次。**
@@ -235,20 +250,35 @@ npm registry 实查（2026-10-31）：三个 `@open-pencil/*` 的 `latest` 均�
 | `fillGeometry` | `GeometryPath[]` |
 | `strokeGeometry` | `GeometryPath[]` |
 
-#### C 类 · 直接二进制（需 base64 或外置资产） —— 1 个
+#### C 类 · 直接二进制（需 base64 或外置资产） —— **0 个**
 
-| 字段 | 类型 |
-|---|---|
-| `textPicture` | `Uint8Array | null` |
+> **【2026-11-10 修正】** 本类原本有 1 个（`textPicture`），**分类是错的**。
+> `textPicture` 不是资产而是**派生缓存**（Skia 段落快照），剔除即可，**不该走 base64 分支**。
+> 详见下方 D1 与 §7.2 的修正记录。
 
-#### D 类 · 派生缓存（序列化时丢弃，加载时重算） —— 4 个
+#### D 类 · 派生字段 —— 5 个（拆成两档）
 
-| 字段 | 类型 |
-|---|---|
-| `derivedLayout` | `Partial<Rect> | null` |
-| `variableBindingScales` | `Partial<Record<string, number>>` |
-| `variableAssignmentScales` | `Partial<Record<string, number>>` |
-| `derivedTextGlyphs` | `DerivedTextGlyph[] | null` |
+**D1 · 必丢**（有明确重算入口，序列化时剔除、加载后重算）—— 3 个
+
+| 字段 | 类型 | 重算入口 |
+|---|---|---|
+| `derivedLayout` | `Partial<Rect> | null` | scene-graph 内没有，在 core：`applyEffectiveGeneratedTextLayout` |
+| `derivedTextGlyphs` | `DerivedTextGlyph[] | null` | 文本整形（core / 渲染侧） |
+| `textPicture` | `Uint8Array | null` | Skia 段落快照；失效在 `scene-graph/src/text/picture.ts` |
+
+**D2 · 必留**（**没有**加载期重算入口，**必须原样往返**）—— 2 个
+
+| 字段 | 类型 | 为什么不能丢 |
+|---|---|---|
+| `variableBindingScales` | `Partial<Record<string, number>>` | 唯一写入口是实例同步 / 树缩放（`scene-graph/src/variables/units.ts:4-15`），**普通加载不重算**；且直接参与绑定解算：`value * scale`（`src/variables/bindings.ts:51-52`），scale ≠ 1 时丢掉会解出不同的数 |
+| `variableAssignmentScales` | `Partial<Record<string, number>>` | 同上（只对 INSTANCE 写，`units.ts:11-12`） |
+
+> **独立佐证**：引擎自己的全图 round-trip **保留**这两个字段 ——
+> `core/src/kiwi/fig/parse/transfer.ts:85-86`：
+> `variableBindingScales: { ...node.variableBindingScales },`
+> `variableAssignmentScales: { ...node.variableAssignmentScales },`
+>
+> 详见 `docs/engine-semantics.md` §6.3。
 
 ### 3.2 SceneGraph 文档层字段
 
@@ -287,7 +317,7 @@ const serialized = { ...node, instanceOverrides: serializeInstanceOverrideState(
 | 问题 | 上游做法 | 位置 |
 |---|---|---|
 | `instanceOverrides` 用 `Map` 存 | `serializeInstanceOverrideState()` → 数组 of `[key, value]` tuples | `scene-graph/src/instance-overrides.ts` |
-| `textPicture`（`Uint8Array`） | base64 字符串 | `openpencil.ts` 的 `collectNodeTree` |
+| `textPicture`（`Uint8Array`） | base64 字符串（上游当资产处理；**od-format 不照抄**——它是缓存，剔除即可，见 §3.1 D1） | `openpencil.ts` 的 `collectNodeTree` |
 | 几何 `commandsBlob`（`Uint8Array`） | 靠 `Uint8Array` 的**原生 JSON 形态** `{"0":1,"1":2,…}`，还原时 `Uint8Array.from(Object.values(...))` | `restoreGeometry()` |
 | 图片资产 | `images: Record<hash, base64>` | `buildOpenPencilClipboardHTML()` |
 
@@ -295,7 +325,11 @@ const serialized = { ...node, instanceOverrides: serializeInstanceOverrideState(
 
 ### 4.2 结论：可行
 
-- **154 个节点字段**：115 个 JSON 原生 + 32 个纯对象结构（改名即可）+ 2 个内嵌二进制 blob（可无损编码成文本）+ 1 个 base64 + 4 个派生（丢弃重算）→ **100% 可表达**
+- **154 个节点字段**：115 个 JSON 原生 + 32 个纯对象结构（改名即可）+ 2 个内嵌二进制 blob（可无损编码成文本）+ 3 个派生缓存（剔除重算）+ 2 个必留的缩放因子（原样往返）→ **100% 可表达**
+  > **【2026-11-10 修正】** 原文写的是「+ 1 个 base64 + 4 个派生（丢弃重算）」——
+  > `textPicture` 实为缓存不是资产（不该 base64），而 `variableBindingScales` /
+  > `variableAssignmentScales` 实为**必留**（无加载期重算入口，丢了绑定会算错）。
+  > 分类现在是 C 类 0 个、D 类 5 个（D1 必丢 3 + D2 必留 2）。总数仍是 154。
 - **几何 blob**：可无损编码（见 §6.4）
 - **图片**：可外置为 `assets/`
 - **文档层 Map**：`variables` / `variableCollections` / `activeMode` / `enabledLibraries` 全是纯对象，直接 JSON
@@ -321,18 +355,31 @@ export function generateId(): string {
 
 **结论**：`od-format` 必须自己维护一层语义 ID（`odId ↔ engineId` 映射），否则「agent 直接编辑文本」和「人读得懂」两个目标都达不到。这是 Phase 1 的**首要设计项**，不是优化项。
 
-#### 坑 2：派生字段必须剔除，否则 diff 全是噪音
+#### 坑 2：派生字段要剔除，但**别把必留的也剔了**
+
+> **【2026-11-10 修正】** 原文把 4 个字段一律当「派生量丢弃」，其中 2 个是误判。
+> 判据必须是「**有没有加载期重算入口**」，不是「看着像派生量」。
+
+**必丢**（剔除，加载后重算）：
 
 | 位置 | 字段 | 处理 |
 |---|---|---|
-| 节点 | `derivedLayout` | 丢弃，加载时重算 |
+| 节点 | `derivedLayout` | 丢弃，core 布局趟重算 |
 | 节点 | `derivedTextGlyphs` | 丢弃，字形重排时重算 |
-| 节点 | `variableBindingScales` | 丢弃，派生量 |
-| 节点 | `variableAssignmentScales` | 丢弃，派生量 |
+| 节点 | `textPicture` | 丢弃，Skia 段落快照缓存（**不是资产，别 base64**） |
 | 文档 | `instanceIndex` | 丢弃，实例索引重算 |
 | 文档 | `positionPreviewVersion` | 丢弃，运行时计数 |
 
-不剔除的后果：diff 里全是布局噪音；且可能把**过期缓存**写回文件，污染下游。
+**必留**（**原样往返**，丢了会算错）：
+
+| 位置 | 字段 | 处理 |
+|---|---|---|
+| 节点 | `variableBindingScales` | **保留**——唯一重算入口是实例同步/树缩放，普通加载不重算；参与绑定解算 `value * scale` |
+| 节点 | `variableAssignmentScales` | **保留**——同上 |
+
+不剔除必丢项的后果：diff 里全是布局噪音；且可能把**过期缓存**写回文件，污染下游。
+**剔错必留项的后果更严重**：scale ≠ 1 时绑定解出的数直接变错，而且**静默**——不报错，只是值不对。
+引擎自己的全图往返保留这两个字段（`core/src/kiwi/fig/parse/transfer.ts:85-86`），是独立佐证。
 
 #### 坑 3：图片别内联 base64
 
