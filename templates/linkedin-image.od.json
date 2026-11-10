@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~linkedin-image-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~linkedin-image-artboard",
+      "type": "FRAME",
+      "name": "画板 · LinkedIn 文章配图 · 1200×627",
+      "children": ["rect~linkedin-image-bg","text~linkedin-image-eyebrow","text~linkedin-image-title","rect~linkedin-image-accent-bar","text~linkedin-image-body","text~linkedin-image-points","rect~linkedin-image-image","text~linkedin-image-image-label","rect~linkedin-image-badge","text~linkedin-image-badge-label","text~linkedin-image-footer","rect~linkedin-image-safe-area"],
+      "box": {"width":1200,"height":627},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":72},
+        {"id":"guide-safe-right","axis":"x","position":1128},
+        {"id":"guide-safe-top","axis":"y","position":75},
+        {"id":"guide-safe-bottom","axis":"y","position":539}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"LinkedIn\",\"format\":\"文章配图\",\"width\":1200,\"height\":627,\"ratio\":\"1.91:1\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.06,\"right\":0.06,\"top\":0.12,\"bottom\":0.14},\"fonts\":{\"eyebrow\":14,\"title\":39,\"body\":18,\"points\":15,\"badge\":12,\"footer\":10,\"imageLabel\":12},\"shrinkFactor\":0.424}}"}
+      ]
+    },
+    {
+      "id": "rect~linkedin-image-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"width":1200,"height":627},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~linkedin-image-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":106,"width":591,"height":20},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.039,"g":0.4,"b":0.761,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"OPEN DESIGNER","font":{"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":20,"letterSpacing":1}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~linkedin-image-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":134,"width":591,"height":101},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Design files should be\ntext, not binary","font":{"size":39,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":51}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~linkedin-image-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":247,"width":70,"height":6},
+      "corners": {"radius":3},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~linkedin-image-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":268,"width":591,"height":63},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"We are building a local-first design canvas where agents patch files directly.","font":{"size":18,"family":"Noto Sans SC"},"leading":{"lineHeight":32}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~linkedin-image-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":341,"width":591,"height":88},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"· Plain-text .od format\n· Git-friendly reviews\n· Local-first, no backend","font":{"size":15,"family":"Noto Sans SC"},"leading":{"lineHeight":29}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~linkedin-image-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":706,"y":75,"width":422,"height":384},
+      "corners": {"radius":8},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~linkedin-image-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":706,"y":257,"width":422,"height":20},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Image placeholder · cover","font":{"size":12,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":19}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~linkedin-image-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":475,"width":291,"height":64},
+      "corners": {"radius":32},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.039,"g":0.4,"b":0.761,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~linkedin-image-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":475,"width":291,"height":64},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Now open source","font":{"size":12,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":26}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~linkedin-image-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":758,"y":475,"width":370,"height":64},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"LinkedIn · 1200×627 · 1.91:1","font":{"size":10,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":22}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~linkedin-image-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~linkedin-image-artboard",
+      "children": [],
+      "box": {"x":72,"y":75,"width":1056,"height":464},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.039,"g":0.4,"b":0.761,"a":1},"mode~light":{"r":0.039,"g":0.4,"b":0.761,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

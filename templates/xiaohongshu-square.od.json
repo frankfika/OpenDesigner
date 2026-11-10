@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~xiaohongshu-square-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~xiaohongshu-square-artboard",
+      "type": "FRAME",
+      "name": "画板 · 小红书 方形 · 1080×1080",
+      "children": ["rect~xiaohongshu-square-bg","rect~xiaohongshu-square-image","text~xiaohongshu-square-image-label","text~xiaohongshu-square-eyebrow","text~xiaohongshu-square-title","rect~xiaohongshu-square-accent-bar","text~xiaohongshu-square-body","text~xiaohongshu-square-points","rect~xiaohongshu-square-badge","text~xiaohongshu-square-badge-label","text~xiaohongshu-square-footer","rect~xiaohongshu-square-safe-area"],
+      "box": {"width":1080,"height":1080},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":86},
+        {"id":"guide-safe-right","axis":"x","position":993},
+        {"id":"guide-safe-top","axis":"y","position":65},
+        {"id":"guide-safe-bottom","axis":"y","position":972}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"小红书\",\"format\":\"方形\",\"width\":1080,\"height\":1080,\"ratio\":\"1:1\"},\"layout\":{\"orientation\":\"square\",\"family\":\"stack\",\"safeArea\":{\"left\":0.08,\"right\":0.08,\"top\":0.06,\"bottom\":0.1},\"fonts\":{\"eyebrow\":21,\"title\":59,\"body\":27,\"points\":22,\"badge\":18,\"footer\":15,\"imageLabel\":17},\"shrinkFactor\":0.701}}"}
+      ]
+    },
+    {
+      "id": "rect~xiaohongshu-square-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"width":1080,"height":1080},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "rect~xiaohongshu-square-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":65,"width":907,"height":294},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":198,"width":907,"height":29},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 封面主图","font":{"size":17,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":27}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":391,"width":907,"height":30},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.886,"g":0.282,"b":0.239,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"居家研究所 · 第 08 期","font":{"size":21,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":30,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":433,"width":907,"height":153},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"把家收拾成\n你真正喜欢的样子","font":{"size":59,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":77}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~xiaohongshu-square-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":604,"width":106,"height":8},
+      "corners": {"radius":4},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":635,"width":907,"height":47},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"断舍离不是扔东西，是把注意力还给真正重要的部分。","font":{"size":27,"family":"Noto Sans SC"},"leading":{"lineHeight":47}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":697,"width":907,"height":129},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"① 一次只整理一个抽屉\n② 每件物品给一个固定的家\n③ 留白比收纳盒更值钱","font":{"size":22,"family":"Noto Sans SC"},"leading":{"lineHeight":43}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~xiaohongshu-square-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":915,"width":203,"height":57},
+      "corners": {"radius":29},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.886,"g":0.282,"b":0.239,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":915,"width":203,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"收藏这份清单","font":{"size":18,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":40}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~xiaohongshu-square-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":709,"y":915,"width":284,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"小红书 · 1080×1080 · 1:1","font":{"size":15,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":33}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~xiaohongshu-square-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~xiaohongshu-square-artboard",
+      "children": [],
+      "box": {"x":86,"y":65,"width":907,"height":907},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.886,"g":0.282,"b":0.239,"a":1},"mode~light":{"r":0.886,"g":0.282,"b":0.239,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

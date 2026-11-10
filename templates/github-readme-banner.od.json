@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~github-readme-banner-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~github-readme-banner-artboard",
+      "type": "FRAME",
+      "name": "画板 · GitHub README 头图 · 1280×640",
+      "children": ["rect~github-readme-banner-bg","text~github-readme-banner-eyebrow","text~github-readme-banner-title","rect~github-readme-banner-accent-bar","text~github-readme-banner-body","text~github-readme-banner-points","rect~github-readme-banner-image","text~github-readme-banner-image-label","rect~github-readme-banner-badge","text~github-readme-banner-badge-label","text~github-readme-banner-footer","rect~github-readme-banner-safe-area"],
+      "box": {"width":1280,"height":640},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":64},
+        {"id":"guide-safe-right","axis":"x","position":1216},
+        {"id":"guide-safe-top","axis":"y","position":64},
+        {"id":"guide-safe-bottom","axis":"y","position":550}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"GitHub\",\"format\":\"README 头图\",\"width\":1280,\"height\":640,\"ratio\":\"2:1\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.05,\"right\":0.05,\"top\":0.1,\"bottom\":0.14},\"fonts\":{\"eyebrow\":17,\"title\":48,\"body\":22,\"points\":18,\"badge\":15,\"footer\":12,\"imageLabel\":13},\"shrinkFactor\":0.477}}"}
+      ]
+    },
+    {
+      "id": "rect~github-readme-banner-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"width":1280,"height":640},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~github-readme-banner-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":69,"width":645,"height":25},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.161,"b":0.184,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"opendesigner","font":{"size":17,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":25,"letterSpacing":1}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~github-readme-banner-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":103,"width":645,"height":125},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"OpenDesigner\n文本优先的设计工作台","font":{"size":48,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":62}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~github-readme-banner-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":242,"width":86,"height":6},
+      "corners": {"radius":3},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.176,"g":0.643,"b":0.306,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~github-readme-banner-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":267,"width":645,"height":77},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"用 .od 纯文本格式描述画布，Agent 直接读写，评审走 Git diff。","font":{"size":22,"family":"Noto Sans SC"},"leading":{"lineHeight":39}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~github-readme-banner-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":356,"width":645,"height":105},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"· npm workspaces monorepo\n· TypeScript + zod\n· 零后端，本地优先","font":{"size":18,"family":"Noto Sans SC"},"leading":{"lineHeight":35}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~github-readme-banner-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":755,"y":64,"width":461,"height":401},
+      "corners": {"radius":8},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~github-readme-banner-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":755,"y":254,"width":461,"height":22},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · README 头图","font":{"size":13,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":21}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~github-readme-banner-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":482,"width":243,"height":68},
+      "corners": {"radius":34},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.161,"b":0.184,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~github-readme-banner-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":482,"width":243,"height":68},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"MIT License","font":{"size":15,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":33}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~github-readme-banner-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":887,"y":482,"width":329,"height":68},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"GitHub · 1280×640 · 2:1","font":{"size":12,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":26}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~github-readme-banner-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~github-readme-banner-artboard",
+      "children": [],
+      "box": {"x":64,"y":64,"width":1152,"height":486},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.176,"g":0.643,"b":0.306,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.176,"g":0.643,"b":0.306,"a":1},"mode~light":{"r":0.176,"g":0.643,"b":0.306,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.141,"g":0.161,"b":0.184,"a":1},"mode~light":{"r":0.141,"g":0.161,"b":0.184,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

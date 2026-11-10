@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~weibo-image-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~weibo-image-artboard",
+      "type": "FRAME",
+      "name": "画板 · 微博 配图 · 1200×1200",
+      "children": ["rect~weibo-image-bg","rect~weibo-image-image","text~weibo-image-image-label","text~weibo-image-eyebrow","text~weibo-image-title","rect~weibo-image-accent-bar","text~weibo-image-body","text~weibo-image-points","rect~weibo-image-badge","text~weibo-image-badge-label","text~weibo-image-footer","rect~weibo-image-safe-area"],
+      "box": {"width":1200,"height":1200},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":96},
+        {"id":"guide-safe-right","axis":"x","position":1104},
+        {"id":"guide-safe-top","axis":"y","position":72},
+        {"id":"guide-safe-bottom","axis":"y","position":1080}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"微博\",\"format\":\"配图\",\"width\":1200,\"height\":1200,\"ratio\":\"1:1\"},\"layout\":{\"orientation\":\"square\",\"family\":\"stack\",\"safeArea\":{\"left\":0.08,\"right\":0.08,\"top\":0.06,\"bottom\":0.1},\"fonts\":{\"eyebrow\":32,\"title\":90,\"body\":41,\"points\":35,\"badge\":28,\"footer\":23,\"imageLabel\":26},\"shrinkFactor\":0.973}}"}
+      ]
+    },
+    {
+      "id": "rect~weibo-image-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"width":1200,"height":1200},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "rect~weibo-image-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":72,"width":1008,"height":327},
+      "corners": {"radius":7},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~weibo-image-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":214,"width":1008,"height":44},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 正文配图","font":{"size":26,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":42}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "text~weibo-image-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":434,"width":1008,"height":46},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.086,"b":0.176,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"@设计笔记","font":{"size":32,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":46,"letterSpacing":3}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~weibo-image-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":498,"width":1008,"height":234},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"配色不用多，\n两个色就够好看","font":{"size":90,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":117}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~weibo-image-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":759,"width":162,"height":12},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~weibo-image-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":806,"width":1008,"height":72},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"主色定气质，强调色定节奏。剩下的交给留白。","font":{"size":41,"family":"Noto Sans SC"},"leading":{"lineHeight":72}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~weibo-image-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":901,"width":1008,"height":68},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"#配色 #设计干货 #视觉设计","font":{"size":35,"family":"Noto Sans SC"},"leading":{"lineHeight":68}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~weibo-image-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":1016,"width":216,"height":64},
+      "corners": {"radius":32},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.086,"b":0.176,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~weibo-image-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":1016,"width":216,"height":64},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"转发 · 关注","font":{"size":28,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":62}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~weibo-image-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":818,"y":1016,"width":286,"height":64},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"微博 · 1200×1200 · 1:1","font":{"size":23,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":51}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~weibo-image-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~weibo-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":72,"width":1008,"height":1008},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.902,"g":0.086,"b":0.176,"a":1},"mode~light":{"r":0.902,"g":0.086,"b":0.176,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

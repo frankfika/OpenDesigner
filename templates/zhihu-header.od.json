@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~zhihu-header-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~zhihu-header-artboard",
+      "type": "FRAME",
+      "name": "画板 · 知乎 文章头图 · 1200×675",
+      "children": ["rect~zhihu-header-bg","text~zhihu-header-eyebrow","text~zhihu-header-title","rect~zhihu-header-accent-bar","text~zhihu-header-body","text~zhihu-header-points","rect~zhihu-header-image","text~zhihu-header-image-label","rect~zhihu-header-badge","text~zhihu-header-badge-label","text~zhihu-header-footer","rect~zhihu-header-safe-area"],
+      "box": {"width":1200,"height":675},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":72},
+        {"id":"guide-safe-right","axis":"x","position":1128},
+        {"id":"guide-safe-top","axis":"y","position":68},
+        {"id":"guide-safe-bottom","axis":"y","position":581}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"知乎\",\"format\":\"文章头图\",\"width\":1200,\"height\":675,\"ratio\":\"16:9\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.06,\"right\":0.06,\"top\":0.1,\"bottom\":0.14},\"fonts\":{\"eyebrow\":18,\"title\":51,\"body\":23,\"points\":20,\"badge\":16,\"footer\":13,\"imageLabel\":15},\"shrinkFactor\":0.55}}"}
+      ]
+    },
+    {
+      "id": "rect~zhihu-header-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"width":1200,"height":675},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~zhihu-header-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":73,"width":591,"height":26},
+      "fills": [
+        {"type":"SOLID","color":{"r":0,"g":0.518,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"知乎 · 精选回答","font":{"size":18,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":26,"letterSpacing":1}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~zhihu-header-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":109,"width":591,"height":133},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"为什么大部分人\n做不好复利式的努力？","font":{"size":51,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":66}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~zhihu-header-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":257,"width":92,"height":7},
+      "corners": {"radius":4},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~zhihu-header-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":284,"width":591,"height":81},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"复利被讲得太多，以至于很多人忽略了它的前置条件——持续性。","font":{"size":23,"family":"Noto Sans SC"},"leading":{"lineHeight":40}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~zhihu-header-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":378,"width":591,"height":117},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"① 复利的三个前提\n② 普通人最容易断在哪一步\n③ 一份可执行的年度清单","font":{"size":20,"family":"Noto Sans SC"},"leading":{"lineHeight":39}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~zhihu-header-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":706,"y":68,"width":422,"height":431},
+      "corners": {"radius":8},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~zhihu-header-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":706,"y":271,"width":422,"height":26},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 回答头图","font":{"size":15,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":24}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~zhihu-header-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":517,"width":216,"height":64},
+      "corners": {"radius":32},
+      "fills": [
+        {"type":"SOLID","color":{"r":0,"g":0.518,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~zhihu-header-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":517,"width":216,"height":64},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"赞同 · 收藏","font":{"size":16,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":35}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~zhihu-header-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":842,"y":517,"width":286,"height":64},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"知乎 · 1200×675 · 16:9","font":{"size":13,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":29}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~zhihu-header-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~zhihu-header-artboard",
+      "children": [],
+      "box": {"x":72,"y":68,"width":1056,"height":513},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0,"g":0.518,"b":1,"a":1},"mode~light":{"r":0,"g":0.518,"b":1,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

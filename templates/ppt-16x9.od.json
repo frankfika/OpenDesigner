@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~ppt-16x9-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~ppt-16x9-artboard",
+      "type": "FRAME",
+      "name": "画板 · PPT / 演示 16:9 幻灯片 · 1920×1080",
+      "children": ["rect~ppt-16x9-bg","text~ppt-16x9-eyebrow","text~ppt-16x9-title","rect~ppt-16x9-accent-bar","text~ppt-16x9-body","text~ppt-16x9-points","rect~ppt-16x9-image","text~ppt-16x9-image-label","rect~ppt-16x9-badge","text~ppt-16x9-badge-label","text~ppt-16x9-footer","rect~ppt-16x9-safe-area"],
+      "box": {"width":1920,"height":1080},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":96},
+        {"id":"guide-safe-right","axis":"x","position":1824},
+        {"id":"guide-safe-top","axis":"y","position":86},
+        {"id":"guide-safe-bottom","axis":"y","position":972}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"PPT / 演示\",\"format\":\"16:9 幻灯片\",\"width\":1920,\"height\":1080,\"ratio\":\"16:9\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.05,\"right\":0.05,\"top\":0.08,\"bottom\":0.1},\"fonts\":{\"eyebrow\":29,\"title\":82,\"body\":37,\"points\":31,\"badge\":25,\"footer\":21,\"imageLabel\":24},\"shrinkFactor\":0.55}}"}
+      ]
+    },
+    {
+      "id": "rect~ppt-16x9-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"width":1920,"height":1080},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~ppt-16x9-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":161,"width":968,"height":42},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.122,"g":0.161,"b":0.216,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"季度业务回顾","font":{"size":29,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":42,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~ppt-16x9-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":219,"width":968,"height":213},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"2026 Q3 增长复盘\n三件最值得说的事","font":{"size":82,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":107}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~ppt-16x9-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":457,"width":148,"height":11},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~ppt-16x9-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":499,"width":968,"height":65},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"整体增长 24%，其中两个渠道贡献了 71% 的增量。","font":{"size":37,"family":"Noto Sans SC"},"leading":{"lineHeight":65}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~ppt-16x9-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":584,"width":968,"height":181},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"① 渠道结构变化\n② 留存拐点出现在第 3 周\n③ 下季度两个优先级","font":{"size":31,"family":"Noto Sans SC"},"leading":{"lineHeight":60}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~ppt-16x9-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":1133,"y":86,"width":691,"height":754},
+      "corners": {"radius":14},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~ppt-16x9-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":1133,"y":443,"width":691,"height":41},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 配图","font":{"size":24,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":38}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~ppt-16x9-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":871,"width":267,"height":101},
+      "corners": {"radius":51},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.122,"g":0.161,"b":0.216,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~ppt-16x9-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":871,"width":267,"height":101},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"内部资料","font":{"size":25,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":55}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~ppt-16x9-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":1210,"y":871,"width":614,"height":101},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"PPT / 演示 · 1920×1080 · 16:9","font":{"size":21,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":46}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~ppt-16x9-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~ppt-16x9-artboard",
+      "children": [],
+      "box": {"x":96,"y":86,"width":1728,"height":886},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.122,"g":0.161,"b":0.216,"a":1},"mode~light":{"r":0.122,"g":0.161,"b":0.216,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

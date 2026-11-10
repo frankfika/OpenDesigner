@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~instagram-story-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~instagram-story-artboard",
+      "type": "FRAME",
+      "name": "画板 · Instagram Story · 1080×1920",
+      "children": ["rect~instagram-story-bg","rect~instagram-story-image","text~instagram-story-image-label","text~instagram-story-eyebrow","text~instagram-story-title","rect~instagram-story-accent-bar","text~instagram-story-body","text~instagram-story-points","rect~instagram-story-badge","text~instagram-story-badge-label","text~instagram-story-footer","rect~instagram-story-safe-area"],
+      "box": {"width":1080,"height":1920},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":86},
+        {"id":"guide-safe-right","axis":"x","position":950},
+        {"id":"guide-safe-top","axis":"y","position":154},
+        {"id":"guide-safe-bottom","axis":"y","position":1652}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"Instagram\",\"format\":\"Story\",\"width\":1080,\"height\":1920,\"ratio\":\"9:16\"},\"layout\":{\"orientation\":\"portrait\",\"family\":\"stack\",\"safeArea\":{\"left\":0.08,\"right\":0.12,\"top\":0.08,\"bottom\":0.14},\"fonts\":{\"eyebrow\":30,\"title\":84,\"body\":38,\"points\":32,\"badge\":26,\"footer\":22,\"imageLabel\":24},\"shrinkFactor\":1}}"}
+      ]
+    },
+    {
+      "id": "rect~instagram-story-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"width":1080,"height":1920},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "rect~instagram-story-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":154,"width":864,"height":528},
+      "corners": {"radius":11},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~instagram-story-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":398,"width":864,"height":41},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Image placeholder · story","font":{"size":24,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":38}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "text~instagram-story-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":734,"width":864,"height":44},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.882,"g":0.188,"b":0.424,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"STORY","font":{"size":30,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":44,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~instagram-story-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":795,"width":864,"height":218},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"3 steps to a\ncleaner desk","font":{"size":84,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":109}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~instagram-story-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":1038,"width":151,"height":11},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~instagram-story-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":1081,"width":864,"height":133},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"No storage boxes needed. Start with these three.","font":{"size":38,"family":"Noto Sans SC"},"leading":{"lineHeight":67}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~instagram-story-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":1235,"width":864,"height":187},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"① Put everything back\n② Clear the sightline\n③ Reset 5 min daily","font":{"size":32,"family":"Noto Sans SC"},"leading":{"lineHeight":62}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~instagram-story-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":1595,"width":161,"height":57},
+      "corners": {"radius":29},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.882,"g":0.188,"b":0.424,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~instagram-story-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":1595,"width":161,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Swipe up","font":{"size":26,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":57}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~instagram-story-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":611,"y":1595,"width":339,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Instagram · 1080×1920 · 9:16","font":{"size":22,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":48}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~instagram-story-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~instagram-story-artboard",
+      "children": [],
+      "box": {"x":86,"y":154,"width":864,"height":1498},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.882,"g":0.188,"b":0.424,"a":1},"mode~light":{"r":0.882,"g":0.188,"b":0.424,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~douyin-vertical-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~douyin-vertical-artboard",
+      "type": "FRAME",
+      "name": "画板 · 抖音 / 视频号 竖版 · 1080×1920",
+      "children": ["rect~douyin-vertical-bg","rect~douyin-vertical-image","text~douyin-vertical-image-label","text~douyin-vertical-eyebrow","text~douyin-vertical-title","rect~douyin-vertical-accent-bar","text~douyin-vertical-body","text~douyin-vertical-points","rect~douyin-vertical-badge","text~douyin-vertical-badge-label","text~douyin-vertical-footer","rect~douyin-vertical-safe-area"],
+      "box": {"width":1080,"height":1920},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":86},
+        {"id":"guide-safe-right","axis":"x","position":928},
+        {"id":"guide-safe-top","axis":"y","position":115},
+        {"id":"guide-safe-bottom","axis":"y","position":1613}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"抖音 / 视频号\",\"format\":\"竖版\",\"width\":1080,\"height\":1920,\"ratio\":\"9:16\"},\"layout\":{\"orientation\":\"portrait\",\"family\":\"stack\",\"safeArea\":{\"left\":0.08,\"right\":0.14,\"top\":0.06,\"bottom\":0.16},\"fonts\":{\"eyebrow\":30,\"title\":84,\"body\":38,\"points\":32,\"badge\":26,\"footer\":22,\"imageLabel\":24},\"shrinkFactor\":1}}"}
+      ]
+    },
+    {
+      "id": "rect~douyin-vertical-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"width":1080,"height":1920},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "rect~douyin-vertical-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":115,"width":842,"height":528},
+      "corners": {"radius":11},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~douyin-vertical-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":359,"width":842,"height":41},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 竖版主图","font":{"size":24,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":38}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "text~douyin-vertical-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":695,"width":842,"height":44},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.996,"g":0.173,"b":0.333,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"60 秒讲清楚","font":{"size":30,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":44,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~douyin-vertical-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":756,"width":842,"height":218},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"3 个动作，\n让桌面立刻变清爽","font":{"size":84,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":109}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~douyin-vertical-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":999,"width":151,"height":11},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.145,"g":0.957,"b":0.933,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~douyin-vertical-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":1042,"width":842,"height":67},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"不用买收纳盒，先把这三件事做掉。","font":{"size":38,"family":"Noto Sans SC"},"leading":{"lineHeight":67}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~douyin-vertical-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":1130,"width":842,"height":187},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"① 全部归位\n② 视线归零\n③ 每天 5 分钟复位","font":{"size":32,"family":"Noto Sans SC"},"leading":{"lineHeight":62}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~douyin-vertical-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":1556,"width":203,"height":57},
+      "corners": {"radius":29},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.996,"g":0.173,"b":0.333,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~douyin-vertical-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":1556,"width":203,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"关注看下一期","font":{"size":26,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":57}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~douyin-vertical-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":552,"y":1556,"width":376,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"抖音 / 视频号 · 1080×1920 · 9:16","font":{"size":22,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":48}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~douyin-vertical-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~douyin-vertical-artboard",
+      "children": [],
+      "box": {"x":86,"y":115,"width":842,"height":1498},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.145,"g":0.957,"b":0.933,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.145,"g":0.957,"b":0.933,"a":1},"mode~light":{"r":0.145,"g":0.957,"b":0.933,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.996,"g":0.173,"b":0.333,"a":1},"mode~light":{"r":0.996,"g":0.173,"b":0.333,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

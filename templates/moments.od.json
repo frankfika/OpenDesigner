@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~moments-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~moments-artboard",
+      "type": "FRAME",
+      "name": "画板 · 朋友圈 九宫格配图 · 1080×1080",
+      "children": ["rect~moments-bg","rect~moments-image","text~moments-image-label","text~moments-eyebrow","text~moments-title","rect~moments-accent-bar","text~moments-body","text~moments-points","rect~moments-badge","text~moments-badge-label","text~moments-footer","rect~moments-safe-area"],
+      "box": {"width":1080,"height":1080},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":108},
+        {"id":"guide-safe-right","axis":"x","position":972},
+        {"id":"guide-safe-top","axis":"y","position":86},
+        {"id":"guide-safe-bottom","axis":"y","position":950}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"朋友圈\",\"format\":\"九宫格配图\",\"width\":1080,\"height\":1080,\"ratio\":\"1:1\"},\"layout\":{\"orientation\":\"square\",\"family\":\"stack\",\"safeArea\":{\"left\":0.1,\"right\":0.1,\"top\":0.08,\"bottom\":0.12},\"fonts\":{\"eyebrow\":22,\"title\":62,\"body\":28,\"points\":24,\"badge\":19,\"footer\":16,\"imageLabel\":18},\"shrinkFactor\":0.736}}"}
+      ]
+    },
+    {
+      "id": "rect~moments-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"width":1080,"height":1080},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "rect~moments-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":86,"width":864,"height":280},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~moments-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":211,"width":864,"height":31},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 实拍","font":{"size":18,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":29}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "text~moments-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":396,"width":864,"height":32},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.18,"g":0.49,"b":0.196,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"周末在家","font":{"size":22,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":32,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~moments-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":440,"width":864,"height":161},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"新买的灯到了，\n晚上终于能看清书了","font":{"size":62,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":81}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~moments-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":620,"width":112,"height":8},
+      "corners": {"radius":4},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~moments-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":652,"width":864,"height":49},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"换了暖光灯泡，色温 3000K，读书不刺眼了。","font":{"size":28,"family":"Noto Sans SC"},"leading":{"lineHeight":49}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~moments-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":716,"width":864,"height":140},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"· 色温 3000K\n· 亮度 60%\n· 安装 10 分钟","font":{"size":24,"family":"Noto Sans SC"},"leading":{"lineHeight":47}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~moments-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":893,"width":156,"height":57},
+      "corners": {"radius":29},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.18,"g":0.49,"b":0.196,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~moments-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":893,"width":156,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"配图 1/3","font":{"size":19,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":42}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~moments-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":688,"y":893,"width":284,"height":57},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"朋友圈 · 1080×1080 · 1:1","font":{"size":16,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":35}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~moments-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~moments-artboard",
+      "children": [],
+      "box": {"x":108,"y":86,"width":864,"height":864},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.18,"g":0.49,"b":0.196,"a":1},"mode~light":{"r":0.18,"g":0.49,"b":0.196,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

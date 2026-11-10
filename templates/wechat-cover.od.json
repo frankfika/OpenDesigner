@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~wechat-cover-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~wechat-cover-artboard",
+      "type": "FRAME",
+      "name": "画板 · 微信公众号 封面 · 900×383",
+      "children": ["rect~wechat-cover-bg","text~wechat-cover-eyebrow","text~wechat-cover-title","rect~wechat-cover-accent-bar","text~wechat-cover-body","text~wechat-cover-points","rect~wechat-cover-image","text~wechat-cover-image-label","rect~wechat-cover-badge","text~wechat-cover-badge-label","text~wechat-cover-footer","rect~wechat-cover-safe-area"],
+      "box": {"width":900,"height":383},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":54},
+        {"id":"guide-safe-right","axis":"x","position":846},
+        {"id":"guide-safe-top","axis":"y","position":46},
+        {"id":"guide-safe-bottom","axis":"y","position":322}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"微信公众号\",\"format\":\"封面\",\"width\":900,\"height\":383,\"ratio\":\"2.35:1\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.06,\"right\":0.06,\"top\":0.12,\"bottom\":0.16},\"fonts\":{\"eyebrow\":12,\"title\":26,\"body\":14,\"points\":13,\"badge\":11,\"footer\":10,\"imageLabel\":11},\"shrinkFactor\":0.424}}"}
+      ]
+    },
+    {
+      "id": "rect~wechat-cover-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"width":900,"height":383},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~wechat-cover-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":54,"width":444,"height":17},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.027,"g":0.757,"b":0.376,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"深度长文","font":{"size":12,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":17,"letterSpacing":1}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~wechat-cover-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":78,"width":444,"height":68},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"一线城市通勤者的\n居住成本观察","font":{"size":26,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":34}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~wechat-cover-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":154,"width":47,"height":6},
+      "corners": {"radius":3},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~wechat-cover-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":172,"width":444,"height":25},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"我们记录了 128 位受访者的居住与通勤数据，试图回答一个问题：","font":{"family":"Noto Sans SC"},"leading":{"lineHeight":25}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~wechat-cover-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":205,"width":444,"height":51},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"① 租金占比的中位数\n② 通勤时长的真实代价","font":{"size":13,"family":"Noto Sans SC"},"leading":{"lineHeight":25}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~wechat-cover-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":529,"y":46,"width":317,"height":218},
+      "corners": {"radius":4},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~wechat-cover-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":529,"y":146,"width":317,"height":19},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 文章头图","font":{"size":11,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":18}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~wechat-cover-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":274,"width":172,"height":48},
+      "corners": {"radius":24},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.027,"g":0.757,"b":0.376,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~wechat-cover-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":274,"width":172,"height":48},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"点击阅读全文","font":{"size":11,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":24}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~wechat-cover-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":568,"y":274,"width":278,"height":48},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"微信公众号 · 900×383 · 2.35:1","font":{"size":10,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":22}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~wechat-cover-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~wechat-cover-artboard",
+      "children": [],
+      "box": {"x":54,"y":46,"width":792,"height":276},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.027,"g":0.757,"b":0.376,"a":1},"mode~light":{"r":0.027,"g":0.757,"b":0.376,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~bilibili-cover-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~bilibili-cover-artboard",
+      "type": "FRAME",
+      "name": "画板 · 哔哩哔哩 封面 · 1920×1080",
+      "children": ["rect~bilibili-cover-bg","text~bilibili-cover-eyebrow","text~bilibili-cover-title","rect~bilibili-cover-accent-bar","text~bilibili-cover-body","text~bilibili-cover-points","rect~bilibili-cover-image","text~bilibili-cover-image-label","rect~bilibili-cover-badge","text~bilibili-cover-badge-label","text~bilibili-cover-footer","rect~bilibili-cover-safe-area"],
+      "box": {"width":1920,"height":1080},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":115},
+        {"id":"guide-safe-right","axis":"x","position":1805},
+        {"id":"guide-safe-top","axis":"y","position":108},
+        {"id":"guide-safe-bottom","axis":"y","position":907}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"哔哩哔哩\",\"format\":\"封面\",\"width\":1920,\"height\":1080,\"ratio\":\"16:9\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.06,\"right\":0.06,\"top\":0.1,\"bottom\":0.16},\"fonts\":{\"eyebrow\":29,\"title\":82,\"body\":37,\"points\":31,\"badge\":25,\"footer\":21,\"imageLabel\":24},\"shrinkFactor\":0.55}}"}
+      ]
+    },
+    {
+      "id": "rect~bilibili-cover-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"width":1920,"height":1080},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~bilibili-cover-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":109,"width":946,"height":42},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.984,"g":0.447,"b":0.6,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"硬核拆解 · 第 12 期","font":{"size":29,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":42,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~bilibili-cover-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":167,"width":946,"height":213},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"我用 30 天，把\n旧笔记本改成了工作站","font":{"size":82,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":107}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~bilibili-cover-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":405,"width":148,"height":11},
+      "corners": {"radius":6},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.137,"g":0.678,"b":0.898,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~bilibili-cover-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":447,"width":946,"height":130},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"预算 800 元，改造一台 2015 年的老笔记本。实测数据全公开。","font":{"size":37,"family":"Noto Sans SC"},"leading":{"lineHeight":65}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~bilibili-cover-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":597,"width":946,"height":181},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"00:00  开场与目标\n03:20  拆机与方案\n08:45  实测性能对比","font":{"size":31,"family":"Noto Sans SC"},"leading":{"lineHeight":60}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~bilibili-cover-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":1129,"y":108,"width":676,"height":670},
+      "corners": {"radius":13},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~bilibili-cover-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":1129,"y":423,"width":676,"height":41},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 封面主视觉","font":{"size":24,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":38}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~bilibili-cover-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":806,"width":359,"height":101},
+      "corners": {"radius":51},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.984,"g":0.447,"b":0.6,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~bilibili-cover-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":806,"width":359,"height":101},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"三连支持一下","font":{"size":25,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":55}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~bilibili-cover-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":1241,"y":806,"width":564,"height":101},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"哔哩哔哩 · 1920×1080 · 16:9","font":{"size":21,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":46}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~bilibili-cover-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~bilibili-cover-artboard",
+      "children": [],
+      "box": {"x":115,"y":108,"width":1690,"height":799},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.137,"g":0.678,"b":0.898,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.137,"g":0.678,"b":0.898,"a":1},"mode~light":{"r":0.137,"g":0.678,"b":0.898,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.984,"g":0.447,"b":0.6,"a":1},"mode~light":{"r":0.984,"g":0.447,"b":0.6,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

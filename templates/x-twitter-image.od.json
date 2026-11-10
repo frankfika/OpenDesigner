@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~x-twitter-image-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~x-twitter-image-artboard",
+      "type": "FRAME",
+      "name": "画板 · X / Twitter 配图 · 1600×900",
+      "children": ["rect~x-twitter-image-bg","text~x-twitter-image-eyebrow","text~x-twitter-image-title","rect~x-twitter-image-accent-bar","text~x-twitter-image-body","text~x-twitter-image-points","rect~x-twitter-image-image","text~x-twitter-image-image-label","rect~x-twitter-image-badge","text~x-twitter-image-badge-label","text~x-twitter-image-footer","rect~x-twitter-image-safe-area"],
+      "box": {"width":1600,"height":900},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":96},
+        {"id":"guide-safe-right","axis":"x","position":1504},
+        {"id":"guide-safe-top","axis":"y","position":108},
+        {"id":"guide-safe-bottom","axis":"y","position":774}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"X / Twitter\",\"format\":\"配图\",\"width\":1600,\"height\":900,\"ratio\":\"16:9\"},\"layout\":{\"orientation\":\"landscape\",\"family\":\"split\",\"safeArea\":{\"left\":0.06,\"right\":0.06,\"top\":0.12,\"bottom\":0.14},\"fonts\":{\"eyebrow\":23,\"title\":67,\"body\":30,\"points\":25,\"badge\":21,\"footer\":18,\"imageLabel\":20},\"shrinkFactor\":0.538}}"}
+      ]
+    },
+    {
+      "id": "rect~x-twitter-image-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"width":1600,"height":900},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "text~x-twitter-image-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":115,"width":788,"height":33},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.114,"g":0.608,"b":0.941,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"OpenDesigner","font":{"size":23,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":33,"letterSpacing":2}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~x-twitter-image-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":161,"width":788,"height":174},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"设计文件应该是\n纯文本，不是二进制","font":{"size":67,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":87}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~x-twitter-image-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":355,"width":121,"height":9},
+      "corners": {"radius":5},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~x-twitter-image-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":390,"width":788,"height":105},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"当设计文件能 diff、能被 agent 直接改写，协作方式就变了。","font":{"size":30,"family":"Noto Sans SC"},"leading":{"lineHeight":53}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~x-twitter-image-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":512,"width":788,"height":146},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"· 文本格式，Git diff 友好\n· Agent 可直接 patch\n· .fig 双向转换","font":{"size":25,"family":"Noto Sans SC"},"leading":{"lineHeight":49}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~x-twitter-image-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":941,"y":108,"width":563,"height":557},
+      "corners": {"radius":11},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~x-twitter-image-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":941,"y":370,"width":563,"height":34},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 配图","font":{"size":20,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":32}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~x-twitter-image-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":688,"width":306,"height":86},
+      "corners": {"radius":43},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.114,"g":0.608,"b":0.941,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~x-twitter-image-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":688,"width":306,"height":86},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"Open source","font":{"size":21,"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":46}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~x-twitter-image-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":978,"y":688,"width":526,"height":86},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"X / Twitter · 1600×900 · 16:9","font":{"size":18,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":40}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~x-twitter-image-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~x-twitter-image-artboard",
+      "children": [],
+      "box": {"x":96,"y":108,"width":1408,"height":666},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.114,"g":0.608,"b":0.941,"a":1},"mode~light":{"r":0.114,"g":0.608,"b":0.941,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}

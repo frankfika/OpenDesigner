@@ -1,0 +1,261 @@
+{
+  "format": "od",
+  "version": "0.1",
+  "meta": {"generator":"od-format@0.1.0","engine":"@open-pencil/scene-graph@0.16.0","colorSpace":"srgb","root":"frame~taobao-main-image-artboard","ordinal":0},
+  "nodes": [
+    {
+      "id": "frame~taobao-main-image-artboard",
+      "type": "FRAME",
+      "name": "画板 · 淘宝 主图 · 800×800",
+      "children": ["rect~taobao-main-image-bg","rect~taobao-main-image-image","text~taobao-main-image-image-label","text~taobao-main-image-eyebrow","text~taobao-main-image-title","rect~taobao-main-image-accent-bar","text~taobao-main-image-body","text~taobao-main-image-points","rect~taobao-main-image-badge","text~taobao-main-image-badge-label","text~taobao-main-image-footer","rect~taobao-main-image-safe-area"],
+      "box": {"width":800,"height":800},
+      "appearance": {"clipsContent":true},
+      "guides": [
+        {"id":"guide-safe-left","axis":"x","position":48},
+        {"id":"guide-safe-right","axis":"x","position":752},
+        {"id":"guide-safe-top","axis":"y","position":48},
+        {"id":"guide-safe-bottom","axis":"y","position":752}
+      ],
+      "pluginData": [
+        {"pluginId":"opendesigner","key":"template","value":"{\"template\":{\"kind\":\"standalone\",\"platform\":\"淘宝\",\"format\":\"主图\",\"width\":800,\"height\":800,\"ratio\":\"1:1\"},\"layout\":{\"orientation\":\"square\",\"family\":\"stack\",\"safeArea\":{\"left\":0.06,\"right\":0.06,\"top\":0.06,\"bottom\":0.06},\"fonts\":{\"eyebrow\":16,\"title\":46,\"body\":21,\"points\":18,\"badge\":14,\"footer\":12,\"imageLabel\":13},\"shrinkFactor\":0.737}}"}
+      ]
+    },
+    {
+      "id": "rect~taobao-main-image-bg",
+      "type": "RECTANGLE",
+      "name": "背景底板",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"width":800,"height":800},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.992,"g":0.973,"b":0.953,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~surface"}}
+    },
+    {
+      "id": "rect~taobao-main-image-image",
+      "type": "RECTANGLE",
+      "name": "图片占位 · 封面主图",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":48,"width":704,"height":229},
+      "corners": {"radius":5},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.902,"g":0.882,"b":0.859,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~placeholder"}}
+    },
+    {
+      "id": "text~taobao-main-image-image-label",
+      "type": "TEXT",
+      "name": "图片占位说明",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":152,"width":704,"height":22},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"图片占位 · 商品主图","font":{"size":13,"family":"Noto Sans SC"},"align":{"horizontal":"CENTER"},"leading":{"lineHeight":21}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "text~taobao-main-image-eyebrow",
+      "type": "TEXT",
+      "name": "栏目标签",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":302,"width":704,"height":23},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":0.314,"b":0,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"限时直降","font":{"size":16,"family":"Noto Sans SC","weight":500},"leading":{"lineHeight":23,"letterSpacing":1}},
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~taobao-main-image-title",
+      "type": "TEXT",
+      "name": "主标题",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":334,"width":704,"height":120},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"桌面收纳三件套\n到手价 ¥39","font":{"size":46,"family":"Noto Sans SC","weight":700},"leading":{"lineHeight":60}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~taobao-main-image-accent-bar",
+      "type": "RECTANGLE",
+      "name": "强调色条",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":468,"width":83,"height":6},
+      "corners": {"radius":3},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.949,"g":0.718,"b":0.02,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~accent"}}
+    },
+    {
+      "id": "text~taobao-main-image-body",
+      "type": "TEXT",
+      "name": "正文",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":492,"width":704,"height":37},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"抽屉分格 + 线缆理线 + 桌下抽屉，一套解决桌面杂乱。","font":{"size":21,"family":"Noto Sans SC"},"leading":{"lineHeight":37}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "text~taobao-main-image-points",
+      "type": "TEXT",
+      "name": "要点列表",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":541,"width":704,"height":105},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.141,"g":0.11,"b":0.09,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"· 抽屉分格盒 ×2\n· 理线夹 ×4\n· 桌下抽屉 ×1","font":{"size":18,"family":"Noto Sans SC"},"leading":{"lineHeight":35}},
+      "bindings": {"fields":{"fills.0.color":"var~ink"}}
+    },
+    {
+      "id": "rect~taobao-main-image-badge",
+      "type": "RECTANGLE",
+      "name": "标签底板",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":710,"width":123,"height":42},
+      "corners": {"radius":21},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":0.314,"b":0,"a":1},"opacity":1,"visible":true}
+      ],
+      "bindings": {"fields":{"fills.0.color":"var~primary"}}
+    },
+    {
+      "id": "text~taobao-main-image-badge-label",
+      "type": "TEXT",
+      "name": "标签文字",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":710,"width":123,"height":42},
+      "fills": [
+        {"type":"SOLID","color":{"r":1,"g":1,"b":1,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"限时 7 天","font":{"family":"Noto Sans SC","weight":600},"align":{"horizontal":"CENTER","vertical":"CENTER"},"leading":{"lineHeight":31}},
+      "bindings": {"fields":{"fills.0.color":"var~on-accent"}}
+    },
+    {
+      "id": "text~taobao-main-image-footer",
+      "type": "TEXT",
+      "name": "页脚 · 平台与尺寸",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":579,"y":710,"width":173,"height":42},
+      "fills": [
+        {"type":"SOLID","color":{"r":0.478,"g":0.416,"b":0.373,"a":1},"opacity":1,"visible":true}
+      ],
+      "text": {"content":"淘宝 · 800×800 · 1:1","font":{"size":12,"family":"Noto Sans SC"},"align":{"horizontal":"RIGHT","vertical":"CENTER"},"leading":{"lineHeight":26}},
+      "bindings": {"fields":{"fills.0.color":"var~muted"}}
+    },
+    {
+      "id": "rect~taobao-main-image-safe-area",
+      "type": "RECTANGLE",
+      "name": "安全区 Safe Area · 内容勿越界",
+      "parent": "frame~taobao-main-image-artboard",
+      "children": [],
+      "box": {"x":48,"y":48,"width":704,"height":704},
+      "strokes": [
+        {
+          "align": "INSIDE",
+          "cap": "NONE",
+          "color": {"r":0.949,"g":0.718,"b":0.02,"a":1},
+          "dashPattern": [12,8],
+          "join": "MITER",
+          "opacity": 1,
+          "type": "SOLID",
+          "visible": true,
+          "weight": 2
+        }
+      ],
+      "bindings": {"fields":{"strokes.0.color":"var~accent"}}
+    }
+  ],
+  "assets": {},
+  "variables": [
+    {
+      "description": "强调色：色条、安全区参考线",
+      "id": "var~accent",
+      "name": "强调色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.949,"g":0.718,"b":0.02,"a":1},"mode~light":{"r":0.949,"g":0.718,"b":0.02,"a":1}}
+    },
+    {
+      "description": "标题、正文、要点",
+      "id": "var~ink",
+      "name": "主文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.961,"g":0.937,"b":0.914,"a":1},"mode~light":{"r":0.141,"g":0.11,"b":0.09,"a":1}}
+    },
+    {
+      "description": "页脚、图片占位说明",
+      "id": "var~muted",
+      "name": "次要文字色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.635,"g":0.576,"b":0.541,"a":1},"mode~light":{"r":0.478,"g":0.416,"b":0.373,"a":1}}
+    },
+    {
+      "description": "标签文字",
+      "id": "var~on-accent",
+      "name": "强调色上的文字",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":1,"g":1,"b":1,"a":1}}
+    },
+    {
+      "description": "图片占位矩形的填充",
+      "id": "var~placeholder",
+      "name": "图片占位灰",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.165,"g":0.145,"b":0.129,"a":1},"mode~light":{"r":0.902,"g":0.882,"b":0.859,"a":1}}
+    },
+    {
+      "description": "品牌主色：栏目标签、标签底板",
+      "id": "var~primary",
+      "name": "主色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":1,"g":0.314,"b":0,"a":1},"mode~light":{"r":1,"g":0.314,"b":0,"a":1}}
+    },
+    {
+      "description": "画板背景",
+      "id": "var~surface",
+      "name": "画布底色",
+      "set": "vcol~brand",
+      "type": "COLOR",
+      "values": {"mode~dark":{"r":0.102,"g":0.086,"b":0.078,"a":1},"mode~light":{"r":0.992,"g":0.973,"b":0.953,"a":1}}
+    }
+  ],
+  "variableSets": [
+    {
+      "defaultMode": "mode~light",
+      "id": "vcol~brand",
+      "modes": [
+        {"id":"mode~light","name":"浅色"},
+        {"id":"mode~dark","name":"深色"}
+      ],
+      "name": "品牌色板",
+      "variables": ["var~primary","var~accent","var~surface","var~ink","var~muted","var~placeholder","var~on-accent"]
+    }
+  ],
+  "themes": {"active":{"vcol~brand":"mode~light"}},
+  "libraries": []
+}
