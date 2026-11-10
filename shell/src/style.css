@@ -384,3 +384,59 @@ body {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* ── Agent 面板 ─────────────────────────────────────────────────────── */
+
+.jsx-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 8px 0;
+  padding: 8px 10px;
+  border: 1px solid #2c3040;
+  border-radius: 6px;
+  background: #16181f;
+  color: #cbd5e1;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.jsx-input:focus {
+  outline: none;
+  border-color: #4f6bf5;
+}
+
+.ok {
+  color: #4ade80;
+}
+
+.tools-toggle {
+  margin-top: 8px;
+  width: 100%;
+  text-align: left;
+}
+
+.tool-list {
+  margin: 6px 0 0;
+  padding: 0 0 0 4px;
+  list-style: none;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.tool-list li {
+  padding: 4px 0;
+  border-bottom: 1px solid #22252f;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.tool-list code {
+  color: #7dd3fc;
+  margin-right: 6px;
+}
+
+.tool-list span {
+  color: #8b93a7;
+}

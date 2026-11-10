@@ -15,6 +15,7 @@ import {
 import type { Tool } from '@open-pencil/core'
 
 import { applyFonts, createShellEditor } from './editor'
+import AgentPanel from './AgentPanel.vue'
 import ExportPanel from './ExportPanel.vue'
 import PropertiesPanel from './PropertiesPanel.vue'
 import { downloadOd, graphToOdText, odTextToGraph } from './io'
@@ -201,6 +202,8 @@ onMounted(() => {
       <!-- 右栏 -->
       <aside class="panel right">
         <PropertiesPanel />
+
+        <AgentPanel />
 
         <ExportPanel />
 
