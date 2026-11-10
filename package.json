@@ -1,0 +1,22 @@
+{
+  "name": "opendesigner",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "description": "OpenDesigner —— 文本优先、agent 可直接读写的设计工作台。构建于 @open-pencil 引擎之上。",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "od": "tsx packages/od-cli/src/cli.ts"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.1",
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0"
+  }
+}
