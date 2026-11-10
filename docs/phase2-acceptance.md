@@ -91,7 +91,73 @@ PPTX             0 字节
 
 ---
 
-## 4. od 文本格式接入编辑器（这是 OpenDesigner 的核心主张）
+## 4. Agent 出图（JSX → 设计节点）
+
+引擎自带 **26 个 agent 工具**（`CORE_TOOLS`），其中最关键的是一对：
+
+- `render`  —— **JSX → 设计节点**。agent 写一段 JSX，画布上就长出东西。
+- `get_jsx` —— **设计节点 → JSX**。把画布上的东西变回 agent 能读的代码。
+
+这一对就是「agent 出图」的闭环：**写 → 看 → 改 → 再看**。
+pen.dev 的核心卖点在这儿，本项目**不自己造**，直接用引擎的。
+
+实测（`shell/scripts/acceptance.mjs`）：
+
+```
+PASS  Agent 出图 · JSX 变成画布节点  生成成功：AgentCard（FRAME） · 补齐 3 个文本节点 · 图层 2 → 3
+```
+
+截图：`shell/out/acceptance-agent.png` —— 画布上出现了 AgentCard，
+标题「agent 出的图」、生僻字「苗圃图册」、蓝色按钮「立即体验」全部正常渲染，
+图层树同步多出 AgentCard。
+
+### 4.1 这里踩了两个坑，都值得记下来
+
+**坑一：引擎的 `render` 工具建出来的文本节点，画布上完全不显示。**
+
+节点在、图层树里有、SVG 导出里也有 `<text>` —— 就是画布上空白。
+对比引擎默认节点与 render 工具建的节点，差三个字段：
+
+| 字段 | 引擎默认 | render 工具建的 | 后果 |
+|---|---|---|---|
+| `textDirection` | `"AUTO"` | `undefined` | 文本方向判定失效 |
+| `layoutDirection` | `"AUTO"` | `undefined` | 同上 |
+| `textAutoResize` | `"NONE"` | `"HEIGHT"` | 高度随文字自动调整，而自动调整要靠字形测量；刚建出来还没测量完，高度算成 0，**零高度的文本节点不画** |
+
+所以 `shell/src/agent.ts` 里加了 `normalizeRenderedNodes()`，生成后补齐这三个字段。
+
+**坑二：新写的字没有字形，节点被引擎 block 掉。**
+
+表现同样是「节点在、画布上空白」。根因链条：
+
+1. Google Fonts 的 `text=` 精确子集**只含我们指定的那几个字**；
+2. 引擎画文本节点时**只认节点自己的 `fontFamily`，不走 CJK fallback 列表**
+   （实测：节点 `fontFamily="Noto Sans SC"` + 字不在子集里 → 不显示；
+   装了 CJK 兜底族也照样不显示）；
+3. 补子集这条路走不通 —— Skia 的 `TypefaceFontProvider` 一个族只认一个 typeface，
+   同族重复注册**不覆盖**（`std::map::emplace` 不替换已存在的 key），
+   后取的子集永远排在旧的后面、用不上。
+
+**解法**：构建期合成一个**全量常用汉字**字体，运行时本地注册一次。
+
+`shell/scripts/build-cjk-font.py`：
+
+1. 用旧 Safari 的 UA 请求 Google —— 它给的是 **woff**（不是 woff2），
+   fontTools 能直接读（woff 只需 zlib，不需要 brotli）；
+2. `fontTools subset` 裁到 **GB2312 一级字表 3755 字 + ASCII**；
+3. 输出 `shell/public/OpenDesignerSC.otf`（1,134 KB）。
+
+运行时 `shell/src/fonts.ts` 把 `/OpenDesignerSC.otf` 注册成 `OpenDesigner SC` 族，
+`shell/src/agent.ts` 把**含非 ASCII 字符**的新文本节点指向这个族。
+
+> 中间踩过的两个弯路也记一下：① 想用 5 个批次分别请求再合并 ——
+> Noto Sans SC 是 CFF 字体，CID 是全局的，合并后 glyph 数 123309 远超
+> `maxp` 表 uint16 的上限；② 曾经把字符集重复拼了一遍导致长度翻倍、
+> 超过 `text=` 的上限退回整族字体，取到的第一个切片正好没有中文字形。
+
+---
+
+## 5. od 文本格式接入编辑器（这是 OpenDesigner 的核心主张）
 
 `.od.json` 现在是**画布的一等公民**，不是导出附件：
 
@@ -125,7 +191,7 @@ PASS  od 打开 · 文档能复原  打开前 2 行图层 → 打开后 2 行，
 
 ---
 
-## 5. 中文字形（这一轮最费劲的一块）
+## 6. 中文字形（这一轮最费劲的一块）
 
 **问题**：引擎内置字体只有 Inter（拉丁）和 Noto Naskh Arabic。中文全是豆腐块。
 
@@ -156,7 +222,7 @@ PASS  od 打开 · 文档能复原  打开前 2 行图层 → 打开后 2 行，
 
 ---
 
-## 6. 团队残留的收编
+## 7. 团队残留的收编
 
 上一轮多 agent 计划的产物当时 verifier 判 FAIL、没提交。这一轮单 agent 接手后：
 
@@ -180,7 +246,7 @@ PASS  od 打开 · 文档能复原  打开前 2 行图层 → 打开后 2 行，
 
 ---
 
-## 7. 完整验证（真实输出）
+## 8. 完整验证（真实输出）
 
 ```
 $ npx tsc -p tsconfig.json --noEmit
@@ -200,16 +266,17 @@ PASS  实时预览 · 岛里跑起真实控件  {"islands":1,"hosts":1,"buttons"
 PASS  实时预览 · 悬停切变体  hover background = rgb(90, 107, 250)
 PASS  导出 · 5 种格式都出内容  HTML:4000 Tailwind:3888 React JSX:240 SVG:4000 PDF:40
 KNOWN  导出 · PPTX：0 字节（上游引擎缺陷，详见 docs/phase2-acceptance.md）
-PASS  od 保存 · 落盘且是合法 JSONC  13697 字节 / 29 个 id
-PASS  od 打开 · 文档能复原  打开前 2 行图层 → 打开后 2 行，文档名 roundtrip.od.json
+PASS  Agent 出图 · JSX 变成画布节点  生成成功：AgentCard（FRAME） · 补齐 3 个文本节点 · 图层 2 → 3
+PASS  od 保存 · 落盘且是合法 JSONC  16455 字节 / 34 个 id
+PASS  od 打开 · 文档能复原  打开前 3 行图层 → 打开后 3 行，文档名 roundtrip.od.json
 
-验收：6/6 通过
+验收：7/7 通过
 ACCEPTANCE: PASS
 ```
 
 ---
 
-## 8. 已知缺陷 / 诚实清单
+## 9. 已知缺陷 / 诚实清单
 
 | # | 问题 | 状态 |
 |---|---|---|
@@ -221,27 +288,33 @@ ACCEPTANCE: PASS
 | 6 | 导出预览只显示前 4000 字符 | 已知，下载的是完整内容 |
 | 7 | 渲染级像素比对 | 未做（只做了 SVG 字符数与内容特征校验） |
 | 8 | 实时预览目前只验证了 `button` 一种 behaviour | 引擎支持 15 种（textField / toggle / slider / tabs / accordion …），未逐个验 |
+| 8b | agent 出图目前只能跑 `render` / `get_jsx` 两个工具 | 引擎有 26 个（`update_node` / `set_fill` / `batch_update` / `diff_visual` …），其余没接 UI |
+| 8c | agent 出图没有自然语言入口 | 只有 JSX。要"说一句就出图"需要接 LLM，API key 不能入库，得由使用者本地提供 |
 | 9 | 图层编辑（拖拽/改尺寸）未接 od 写回 | 画布上的编辑目前只改引擎内存，不落盘；`od-ops` 有操作层但还没接 UI |
 
 ---
 
-## 9. 与 pen.dev 的差距（这一轮之后的诚实版本）
+## 10. 与 pen.dev 的差距（这一轮之后的诚实版本）
 
 **这一轮补上的**：
 
 - ✅ 真实画布（不是渲染出来的假图）
 - ✅ 实时在工作的动画（真的能点、真的切变体）
-- ✅ 中文字形
+- ✅ 中文字形（含 agent 现写的新字、生僻字）
 - ✅ 一键出代码（HTML / Tailwind / React JSX / SVG / PDF）
 - ✅ 文本格式与画布同源（`.od.json` 直接读写，agent 可直接改）
+- ✅ **agent 出图的引擎链路**（JSX → 设计节点 → 画布可见 → 再导回 JSX）
 
 **仍然比不上 pen.dev 的**：
 
-- ❌ **agent 是能改稿，但还不能"用自然语言让它画"** —— 没有对话式生成、没有变体迭代、没有同题多解。pen.dev 的核心卖点在这儿，我这轮完全没碰。
+- ❌ **agent 能出图，但还不能"用自然语言让它画"** —— 出图链路是通的（JSX 进、设计节点出、画布上看得见），
+  但没有对话式生成、没有变体迭代、没有同题多解。pen.dev 的核心卖点还差一层。
 - ❌ 编辑深度：图层树能看能选，但拖拽、改尺寸、改颜色这些还没接 od 写回
 - ❌ 协作、分享、评论
 - ❌ 组件库的规模
 - ❌ PPTX 导出（上游 bug）
 
 > 按 `docs/gap-analysis-vs-pen.md` 的判断，**下一轮该押在"agent 自然语言改稿 + 出图反馈闭环"上**，
-> 而不是继续补编辑器功能。引擎已经能画、能导出、能交互，缺的是让 agent 看得见自己改了什么。
+> 而不是继续补编辑器功能。引擎已经能画、能导出、能交互、能被 agent 用工具改，
+> 缺的是让 agent 看得见自己改了什么 —— 这正是 `diff_visual` 那个工具的用途，
+> 本轮还没接。
