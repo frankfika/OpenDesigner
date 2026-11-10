@@ -19,6 +19,10 @@
 新增的深度调研见 `docs/engine-semantics.md`（组件/实例/override、自动布局、变量与主题、图片资源、确定性 ID、隐藏状态，含 220 条 `file:line` 引用），
 格式规格见 `docs/od-format-spec.md`。
 
+> **2026-11-10 更新**：Phase 1 已经做完了 —— `packages/od-format`（序列化层）+ `packages/od-cli`（命令行）
+> 已实现并通过验收（**305 个测试全绿**）。验收结论见 **§9** 与 `docs/p0-acceptance.md`。
+> 实现过程中又发现 **3 处规格自身的不自洽**，记在 §9.3。
+
 ## 0. 一句话结论
 
 **文本序列化可行，而且上游已经证明过一次。**
@@ -755,3 +759,52 @@ serialize-probe 的实际输出：
 
 **不许做的事**：改 `docs/sdk-notes.md` 里已核实的结论（可以补充、可以标 ❌ 并附证据，但不许静默改写）、写新规划、实现 Phase 1 及以后的功能。
 
+---
+
+## 9. Phase 1 实现与验收结果（2026-11-10）
+
+### 9.1 交付了什么
+
+| 交付物 | 位置 | 说明 |
+|---|---|---|
+| **od-format 序列化层** | `packages/od-format/src/` | 引擎文档 ⇄ od 文本双向序列化，154 字段全覆盖 |
+| **od 命令行** | `packages/od-cli/src/cli.ts` | `od convert` / `inspect` / `validate` / `migrate` / `schema`，退出码契约逐条验证 |
+| **验收套件** | `packages/od-format/tests/` | 305 个测试（含 4 类保真度场景 + 通用结构等价判定器） |
+| **字段映射生成器** | `scripts/gen-od-field-map.py` | 从 `.d.ts` 机器解析字段清单 + 类型 → 生成 `src/field-map.ts`，**手抄的清单不许通过验证** |
+| **验收报告** | `docs/p0-acceptance.md` | 四类场景 × 往返是否无损 × 证据 × 损失的细节 |
+
+### 9.2 关键结论（对 Phase 0 结论的兑现情况）
+
+| Phase 0 的结论 | 兑现情况 |
+|---|---|
+| ID 要另做语义层 | ✅ 做了 —— **odId ↔ engineId 是恒等映射**（od 文件里**不存**映射表），odId 形如 `frame~hero`、`inst~button-1` |
+| 派生字段要剔除 | ✅ 做了 —— **D1 必丢 3 个 + D2 必留 2 个**，有专门测试断言 |
+| 图片要外置 | ✅ 做了 —— `assets/<sha1>.png` + `fills[].imageHash` 引用，od 文件里**不含字节** |
+| `undefined` 字段用 `.optional()` | ✅ 做了 —— 省略 = 引擎默认值（默认值从引擎 `createDefaultNode()` 取，不手抄） |
+| 几何 blob 无损 | ✅ 做了 —— SVG path `d` 字符串，**1000 条随机 blob 逐字节往返相同** |
+| 文档层 Map 要补齐 | ✅ 做了 —— `variables` / `variableSets` / `themes.active` / `libraries` 全在 |
+
+**三条命门（research.md §5.1）的实测结论：**
+
+- **组件 / 实例 / override** → ✅ **可无损**
+- **自动布局** → ✅ **意图与结果都可无损**（几何一律照存，不依赖重算 —— 布局计算在 core 的 Yoga 里，重算不保证逐位相同）
+- **变量 + 主题** → ✅ **可无损**（前提：D2 两个 scale 必留、画笔保序、主题两层都存）
+
+### 9.3 实现过程中发现的 3 处规格不自洽（**规格需要修订，不是实现的问题**）
+
+| # | 规格的问题 | 事实 | 本实现的处理 |
+|---|---|---|---|
+| 1 | §3.4 说 `bindings.scales` 的**值**是变量 id | 值是 **number**（缩放乘数），键才是字段路径（`scene-graph/src/variables/bindings.ts:51-52`） | 按事实实现。**按规格实现会导致绑定静默解出不同的数** |
+| 2 | §2.5 的铸造算法（看「文档已用的 odId 集合」）与 §2.9 的「删除后重建同名不复用」互相矛盾 | 单计数器 `meta.ordinal` 表达不了「某个 base 曾被用过」 | 取更安全的一侧：base 一旦用过就不再复用。**残留缺口**：上一会话就删掉的节点，跨会话仍可能复用 base（需额外持久化状态 → 需规格决策） |
+| 3 | §2.9 的「实例 detach → 铸造 odId」在 §2.11 的 `IdRegistry` 契约里没有对应入口 | 契约表缺这一条 | 用 `resolve(engineId, { kind, name })` 覆盖；契约表应补 |
+
+### 9.4 复现
+
+```bash
+cd /workspace/OpenDesigner
+npm install
+npx tsc -p tsconfig.json --noEmit   # 无错误
+npx vitest run                      # 305 passed (15)
+npm run od -- --help
+python3 scripts/gen-od-field-map.py --check   # 154/154 与 .d.ts 逐条吻合
+```

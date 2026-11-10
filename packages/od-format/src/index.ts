@@ -1,10 +1,10 @@
 /**
  * od-format 包入口。
  *
- * ⚠️ **完整 API 契约以 `docs/od-format-spec.md` §9 为准**（本文件只做导出汇总，
- * 不复制规格，避免两边漂移）。实现前先读规格 §9.2 的 API 清单。
+ * **完整 API 契约以 `docs/od-format-spec.md` §9 为准**（本文件只做导出汇总，
+ * 不复制规格，避免两边漂移）。
  *
- * 预期公开 API（规格 §9.2）：
+ * 公开 API（规格 §9.2）：
  *   - OD_FORMAT_VERSION / OD_FORMAT_PACKAGE_VERSION —— 版本常量
  *   - OdDocumentSchema / OdDocument              —— od 文档模型（zod）
  *   - fromEngine(graph, registry?)               —— 引擎文档 → od 文档
@@ -28,5 +28,124 @@
  * 本包的运行时依赖只有 `@open-pencil/scene-graph` + `zod`，
  * **不依赖 @open-pencil/core**（core 只在根 devDependencies 里，供测试做渲染/布局比对）。
  */
-export const OD_FORMAT_VERSION = '0.1'
-export const OD_FORMAT_PACKAGE_VERSION = '0.1.0'
+import { z } from 'zod'
+
+import { OdDocumentSchema, type OdDocument } from './schema'
+import { parseJsonc, stringifyOd } from './text'
+import { OdDecodeError } from './errors'
+
+export { OD_FORMAT_VERSION, OD_FORMAT_PACKAGE_VERSION, OD_FORMAT_ID, OD_FILE_EXTENSION } from './version'
+export {
+  OdError,
+  OdEncodeError,
+  OdDecodeError,
+  OdMigrationError,
+  OdValidationError,
+  OD_ERROR_CODES,
+  type OdErrorCode,
+  type OdIssue,
+  type OdSeverity,
+} from './errors'
+
+export {
+  OdDocumentSchema,
+  OdNodeSchema,
+  OdMetaSchema,
+  OdVariableSchema,
+  OdVariableSetSchema,
+  OdAssetSchema,
+  OdLibrarySchema,
+  OdModeSchema,
+  OdThemesSchema,
+  type OdDocument,
+  type OdNode,
+  type OdMeta,
+  type OdVariable,
+  type OdVariableSet,
+  type OdAsset,
+  type OdLibrary,
+  type OdMode,
+} from './schema'
+
+export { fromEngine, type EncodeContext } from './encode'
+export { toEngine, type ToEngineOptions, type ToEngineResult } from './decode'
+export { validate, assertValid, type ValidationResult, type ValidateOptions } from './validate'
+export {
+  inspect,
+  formatInspectText,
+  type InspectOptions,
+  type InspectResult,
+  type InspectTreeNode,
+} from './inspect'
+export {
+  migrate,
+  migrations,
+  schemas,
+  isSupportedVersion,
+  latestVersion,
+  SUPPORTED_VERSIONS,
+  migrate_0_1_to_1_0,
+  type OdVersion,
+  type OdMigration,
+} from './migrate'
+
+export {
+  IdRegistry,
+  isOdId,
+  odIdKind,
+  odIdSlug,
+  odIdDiscriminator,
+  slugify,
+  kindOfNodeType,
+  maxDiscriminatorOf,
+  OD_ID_KINDS,
+  OD_ID_PATTERN,
+  NODE_TYPE_KINDS,
+  type OdIdKind,
+} from './ids'
+
+export {
+  BINDING_PATH_SCALARS,
+  BINDING_PATH_INDEXED,
+  BINDING_PATH_COUNT,
+  engineBindingPathToOd,
+  odBindingPathToEngine,
+  isValidOdBindingPath,
+} from './paths'
+
+export { blobToSvgPath, svgPathToBlob, encodeCoord } from './geometry'
+export { stripJsonComments, parseJsonc, orderKeys } from './text'
+export { FIELD_MAP, ENGINE_FIELD_NAMES, FIELD_VALUE_KINDS, D1_NODE_FIELDS, D2_NODE_FIELDS } from './field-map'
+export type { FieldMapping, FieldTreatment, ValueKind } from './field-map'
+
+/**
+ * 解析 od 文本 → od 文档。
+ *
+ * - **JSONC 注释容忍**（规格 §6.1）：`//` 与 `/* *\/` 注释被剥离；字符串里的不算。
+ * - **zod 校验**：结构不合法直接抛 `OdDecodeError`。
+ */
+export function parseOd(text: string): OdDocument {
+  const raw = parseJsonc(text)
+  const result = OdDocumentSchema.safeParse(raw)
+  if (!result.success) {
+    const issues = result.error.issues
+      .slice(0, 5)
+      .map((i) => `${i.path.join('.') || '(root)'}: ${i.message}`)
+      .join('; ')
+    throw new OdDecodeError(
+      'OD1100',
+      '',
+      `od 文档不合法：${issues}`,
+      `共 ${result.error.issues.length} 处问题`
+    )
+  }
+  return result.data
+}
+
+/** 把 od 文档规范化写出（固定键序、2 空格缩进、LF、末尾单个换行）。 */
+export { stringifyOd }
+
+/** 公开的 JSON Schema（规格 §7）。 */
+export function odDocumentJsonSchema(): Record<string, unknown> {
+  return z.toJSONSchema(OdDocumentSchema, { io: 'input' }) as Record<string, unknown>
+}

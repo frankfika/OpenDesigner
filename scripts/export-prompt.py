@@ -18,7 +18,7 @@ if not m:
 prompt = m.group(1)
 
 header = (
-    "# OpenDesigner Phase 0 核对 —— 启动 prompt\n"
+    "# OpenDesigner 核对 + 模板准备 —— 启动 prompt\n"
     "#\n"
     "# 用法：把下面「=== PROMPT BEGIN ===」和「=== PROMPT END ===」之间的内容\n"
     "# 整段复制给云电脑上的执行 AI。它会自己 clone 仓库并开始干活。\n"

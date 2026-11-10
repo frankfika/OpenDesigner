@@ -1,4 +1,4 @@
-# OpenDesigner Phase 0 核对 —— 启动 prompt
+# OpenDesigner 核对 + 模板准备 —— 启动 prompt
 #
 # 用法：把下面「=== PROMPT BEGIN ===」和「=== PROMPT END ===」之间的内容
 # 整段复制给云电脑上的执行 AI。它会自己 clone 仓库并开始干活。
@@ -10,29 +10,57 @@
 你是 OpenDesigner 的执行 AI。仓库已 clone 在当前目录，只允许改这个目录内的文件。
 
 【必读，按顺序，读完后用三句话向我复述产品定位】
-1. PLAN.md —— 产品战略、范围、风险
+1. PLAN.md —— 产品战略、范围、风险、阶段计划（注意：Phase 0 / Phase 1 已完成，现在轮到 Phase 2）
 2. docs/competitive-review.md —— OpenPencil 已有什么，不许重造
-3. docs/sdk-notes.md —— Phase 0 的**既有实测结论**：154 个节点字段清单 + 文本序列化可行性结论
+3. docs/sdk-notes.md —— **既有实测结论**：154 个节点字段清单 + 文本序列化可行性 + §9 是 Phase 1 的兑现情况
+4. docs/p0-acceptance.md —— Phase 1 的验收报告（四类场景的往返保真度结论）
    ⚠️ docs/EXECUTION_SPEC.md 是作废方案，整份都不要读、不要施工
 
-【重要：Phase 0 的分析和最小壳本机已经做完了】
+【重要：Phase 0 的分析、Phase 1 的 od-format 实现，本机都已经做完了】
 - 字段清单和序列化结论在 docs/sdk-notes.md 里，是实测的，不要重做
-- shell/ 是可直接运行的最小壳骨架，已装好依赖配置
-- 你的活是【逐条核对 + 补浏览器取证】，不是从零实现
+- packages/od-format（序列化层）+ packages/od-cli（od 命令行）**已经实现并验收**（305 测试全绿）
+- shell/ 是可直接运行的最小壳骨架
+- 你的活是【核对 + 浏览器取证 + 在新能力上做验证 + Phase 2 的机械化准备】，不是从零实现
 
 【环境自检】
 - node -v 必须 ≥ 20，否则先装 Node 20 再继续
 - git 配置好 user.name / user.email
+- 根目录 npm install（依赖已锁：zod 4.6.7 / vitest 5.1.0 / typescript 5.9.3；
+  @open-pencil/core 0.16.0 只在根 devDependencies，别装进 packages/）
 
-【唯一任务：Phase 0 核对与浏览器取证】
-照 docs/sdk-notes.md §8 的待核对项逐条执行（§8 是准，下面是执行清单），
-每条把**真实命令和真实输出**追加到 docs/sdk-notes.md
-（不许写「应该可以」，不许静默改写已核实的结论）：
+【任务 A · 核对 od-format 层（先做这个，它决定后面能不能信自己的机器）】
+在仓库根目录逐条跑，每条把**真实命令和真实输出**贴出来：
+1. npx tsc -p tsconfig.json --noEmit      —— 期望无错误
+2. npx vitest run                          —— 期望 15 个文件 / 305 个测试全绿
+3. npm run od -- --help                    —— 期望打印五个子命令
+4. python3 scripts/gen-od-field-map.py --check
+   —— 期望 "engine fields: 154  mapped: 154" + "OK: ... 与生成器输出一致"
+5. npm run od -- validate <某个 od 文件>    —— 期望 "✓ ... 校验通过"
+   仓库里没有现成的 od 文件，你可以自己造一个：
+     node --import tsx -e "
+       import {fromEngine,stringifyOd} from './packages/od-format/src/index.ts'
+       import {SceneGraph} from '@open-pencil/scene-graph'
+       let i=0; const g=new SceneGraph(()=>'a'+(++i)); g.nodes.clear()
+       const r=g.createNodeWithId('frame~document','FRAME',null,{name:'Document'}); g.rootId=r.id
+       console.log(stringifyOd(fromEngine(g)))" > /tmp/t.od.json
+   然后 npm run od -- inspect /tmp/t.od.json 看结构摘要
+6. 往返一致性自测（最关键的一条）：
+     node --import tsx -e "
+       import {fromEngine,toEngine,stringifyOd} from './packages/od-format/src/index.ts'
+       import {SceneGraph} from '@open-pencil/scene-graph'
+       let i=0; const g=new SceneGraph(()=>'a'+(++i)); g.nodes.clear()
+       const r=g.createNodeWithId('frame~document','FRAME',null,{name:'Document'}); g.rootId=r.id
+       const a=stringifyOd(fromEngine(g))
+       const b=stringifyOd(fromEngine(toEngine(fromEngine(g)).graph))
+       console.log(a===b ? 'ROUNDTRIP OK' : 'ROUNDTRIP MISMATCH')"
+   —— 期望 ROUNDTRIP OK
+任何一条不符就报 ❌ 并贴完整输出，**不许改测试让它变绿**。
 
+【任务 B · Phase 0 的浏览器取证（补上一直缺的那块）】
+照 docs/sdk-notes.md §8 的待核对项逐条执行，每条把真实命令和真实输出追加到 docs/sdk-notes.md：
 1. 核对版本：npm ls @open-pencil/core @open-pencil/scene-graph @open-pencil/vue canvaskit-wasm vue
    —— 期望 0.16.0 / 0.16.0 / 0.16.0 / 0.42.0 / 3.5.44；不一致就报 ❌ 并说明
-   —— 另外跑 `npm ls canvaskit-wasm`，期望**只有 0.42.0 一个版本**（core 和 vue 都 deduped、
-      顶层显示 overridden）。出现 0.41.1 说明 overrides 没生效，报 ❌（见 docs/sdk-notes.md §5 坑 I）
+   —— 另外跑 `npm ls canvaskit-wasm`，期望**只有 0.42.0 一个版本**
 2. cd shell && npm install
 3. cd shell && npm run typecheck     贴完整输出
 4. cd shell && npm run build         贴完整输出（wasm 要落到产物根 dist/canvaskit.wasm）
@@ -40,43 +68,44 @@
 6. cd shell && npm run serialize-probe  必须往返无字段丢失，贴输出
 7. 浏览器取证：cd shell && npm run dev -- --port 5300，
    然后 node scripts/browser-check.mjs http://localhost:5300/ out/browser-shot.png
-   - 实测无头 Chromium（SwiftShader）的 WebGL2 是可用的，正常应该能画出来
+   - 实测无头 Chromium（SwiftShader）的 WebGL2 可用
    - 脚本会打印 canvasCount / webgl2 / surfaceError 三项，全对就是 BROWSER CHECK: PASS
-   - 没装 Playwright 就跳过本项，用第 5 项（Node 无头渲染）顶上，那条不依赖浏览器
-   - 如果出来是**白页** + console 报 "does not provide an export named 'default'"，
-     那是 vite.config.ts 里 optimizeDeps.exclude 的问题，**不是** GPU 问题
-     （本仓库已修好，别改回去；细节见 docs/sdk-notes.md §5 坑 E）
-   - 兜底路径：npm run build && npm run preview，这条不过 dev 的依赖预打包
-   - 还是不行就如实报告，把 console 报错贴出来，标 ❌ + 原因
+   - 没装 Playwright 就跳过本项，用第 5 项顶上
+   - 如果是**白页** + console 报 "does not provide an export named 'default'"，
+     那是 vite.config.ts 里 optimizeDeps.exclude 的问题，**不是** GPU 问题（本仓库已修好，别改回去）
    - 不许伪造截图、不许用别的东西冒充画布
-   - console 里的 404 和字体警告是已知噪音，不影响渲染，判断标准看上面那三项
 8. 核对字段数：python3 scripts/gen-field-list.py \
      shell/node_modules/@open-pencil/scene-graph/dist /tmp/field-list.md
    —— 期望 154 个节点字段；不一致就报 ❌ 并 diff 差异
-9. 核对官方文档可达（对应 sdk-notes.md §8 第 8 条）：
-   for u in getting-started guides/custom-editor-shell architecture; do
-     curl -sS -o /dev/null -w "%{http_code} $u\n" "https://openpencil.dev/programmable/sdk/$u"
-   done
-   —— 期望三个都是 200；不是 200 就报 ❌
 
-【如果构建挂了】
-大概率是 vite.config.ts 里的配置被动了或被删了：
-wasm 落根 / 上游 worker .ts 后缀 / esbuild target es2022 /
-**别把 canvaskit-wasm 加回 optimizeDeps.exclude**。
-这几个坑的详细说明在 docs/sdk-notes.md §5，**不要删配置**，改之前先读那一节。
-还是挂就把完整报错贴出来。
+【任务 C · Phase 2 的机械化准备：社媒尺寸模板表】
+Phase 2 要做「社媒模板库 v1（6-8 个尺寸模板）+ 一键多尺寸派生」。
+od-format 已经能用了，所以模板可以直接用**脚本生成 .od.json**，这是机械活，适合你做。
 
-【验收】
-- docs/sdk-notes.md 里 §8 的待核对项每条都有 ✅/❌ + 真实输出
-- git 提交：每个大步骤一个 commit，message 用中文写清做了什么
-- 最后输出 PASS/FAIL 清单
+1. 先定尺寸表（每个一行：用途 / 宽 / 高 / 建议文件名），落成
+   `docs/templates/sizes.md`。至少覆盖：
+   公众号封面（900×383）、公众号长图（900×1200）、小红书竖版（1242×1660）、
+   小红书方版（1080×1080）、微博横版（1200×675）、知乎封面（1200×675）、
+   抖音竖版（1080×1920）、B 站封面（1920×1080）
+   —— 尺寸不对就按各平台的公开规范改，并在文件里注明依据
+2. 写一个**可复跑的生成脚本** `scripts/gen-templates.ts`：
+   用 `@open-pencil/scene-graph` 造每个尺寸的空白画布（一个 FRAME 根 + 一个 CANVAS 页），
+   经 `packages/od-format` 的 `fromEngine` + `stringifyOd` 写成
+   `templates/<用途>.od.json`。
+   **必须走 od-format 的公开 API**，不要手拼 JSON。
+3. 生成后逐个跑 `npm run od -- validate templates/<用途>.od.json`，全部要过。
+4. 脚本要幂等：跑两次产出的文件逐字节相同（`git diff` 为空）。
+5. 把命令和输出贴出来。
 
 【禁止事项】
 - 禁止自己写新的规划或执行手册
-- 禁止实现 PLAN.md 里 Phase 1 及以后的功能（od-format、模板库、mmx 面板都不许动）
-- 禁止修改 docs/sdk-notes.md 里已核实的结论（可以补充、可以标 ❌ 并附证据，但不许静默改写）
-- 禁止装 deps 里没列的依赖；禁止改 PLAN.md / competitive-review.md
-- 禁止跑 `npm audit fix --force`（会把引擎降级到 0.13.2，毁掉本次前提）
+- 禁止修改 PLAN.md / docs/research.md / docs/competitive-review.md
+- 禁止静默改写 docs/sdk-notes.md / docs/od-format-spec.md 里已核实的结论
+  （可以补充、可以标 ❌ 并附证据；**改结论必须在 §0.0 修正记录里立条目**）
+- 禁止改 packages/od-format/src/ 下的实现（那是已验收的资产）——
+  发现实现有问题就**报告**，不要自己去修
+- 禁止装 deps 里没列的依赖；禁止跑 `npm audit fix --force`（会把引擎降级到 0.13.2，毁掉前提）
+- 禁止把 MiniMax API key 写进仓库（mmx 在本机，不在云电脑上）
 
 【关于 push】
 默认你没有 frankfika 仓库的推送权限。
@@ -85,5 +114,5 @@ wasm 落根 / 上游 worker .ts 后缀 / esbuild target es2022 /
     git format-patch -1 HEAD -o /tmp/patch
   把补丁文件路径报告给我，不要尝试 push
 
-完成后输出：PASS/FAIL 清单 + sdk-notes.md 摘要。
+完成后输出：任务 A/B/C 的 PASS/FAIL 清单 + 真实输出。
 === PROMPT END ===
