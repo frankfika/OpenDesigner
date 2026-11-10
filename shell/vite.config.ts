@@ -39,8 +39,24 @@ function canvaskitWasm(): Plugin {
 
 export default defineConfig({
   plugins: [vue(), canvaskitWasm()],
+  server: {
+    fs: {
+      // od-format 的源码在 shell/ 外面，dev server 要能读到
+      allow: [resolve(here, '..')]
+    }
+  },
   resolve: {
     alias: [
+      /**
+       * od-format 是同仓库的另一个包（packages/od-format），源码是 TS。
+       *
+       * 直接指到源码而不是走 npm link：vite 会把它当项目源码转译，
+       * 不用先 build 一份 dist，改完 od-format 立刻生效。
+       */
+      {
+        find: /^@opendesigner\/od-format$/,
+        replacement: resolve(here, '../packages/od-format/src/index.ts')
+      },
       /**
        * 上游 @open-pencil/core@0.16.0 的打包 bug：
        * dist 里有 .js 文件，但引用时漏改了扩展名，于是 `new Worker(new URL(...))`
