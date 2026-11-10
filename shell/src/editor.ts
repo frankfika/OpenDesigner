@@ -8,7 +8,10 @@ import {
 } from '@open-pencil/core/text'
 
 import {
+  ensureFontCoverage,
+  installCjkFallbacks,
   installHostFontLoader,
+  preloadLocalFonts,
   promoteDefaultFontWhenReady,
   setFontCharacters
 } from './fonts'
@@ -37,6 +40,11 @@ function setupFonts(): void {
   })
   // 主角是 hostFontLoader：按文档实际用字取精确子集，provider 链只当兜底。
   installHostFontLoader()
+  // 再装一批常用汉字当 CJK 兜底族 —— 系统的中文字体在容器里一个都没有，
+  // 缺字时没有兜底，节点会被引擎 block 掉、画布上完全不显示。
+  void installCjkFallbacks()
+  // 本地合成的全量常用汉字字体（agent 写的新字靠它）
+  void preloadLocalFonts()
 }
 
 /**
@@ -122,10 +130,22 @@ export function createShellEditor(getViewportSize: () => { width: number; height
  *
  * 打开别的 od 文档后要再跑一次 —— 换了文档就换了字。
  */
+/**
+ * 只要用得到的那一个方法 —— 不写死 Editor 类型。
+ *
+ * 写成 Editor 会撞上包的类型重复依赖（core 里引的那份 scene-graph 与
+ * shell 里装的那份不是同一个类型实例），比较两边就不兼容了。
+ */
+export interface FontLoadTarget {
+  loadFontsForNodes(nodeIds: string[]): Promise<unknown> | unknown
+  /** 换完默认字体要让画布重画一遍 */
+  state: { canvasVersion: number }
+}
+
 export async function applyFonts(
   graph: Graph,
   rootId: string,
-  editor?: Editor
+  editor?: FontLoadTarget
 ): Promise<void> {
   setupFonts()
   const childIds = graph.getChildren(rootId).map((n) => n.id)
@@ -134,6 +154,10 @@ export async function applyFonts(
   setFontCharacters(characters + collectNodeNames(graph, rootId))
   try {
     await loadFontsFor(keys, characters)
+    // 文档里出现了新字（agent 写的、用户粘贴的）要补子集，否则节点不渲染
+    await Promise.all(
+      keys.map(([family, style]) => ensureFontCoverage(family, style, characters))
+    )
     await editor?.loadFontsForNodes(childIds)
   } catch {
     /* 字体拉不到时保持现状，不阻断编辑 */

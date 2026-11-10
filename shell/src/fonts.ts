@@ -5,6 +5,8 @@ import {
 } from '@open-pencil/core'
 import { fontManager } from '@open-pencil/core/text'
 
+import { CJK_FALLBACK_BATCHES } from './cjk-chars'
+
 /**
  * 中文字体接入。
  *
@@ -28,6 +30,41 @@ import { fontManager } from '@open-pencil/core/text'
 
 const GOOGLE_CSS = 'https://fonts.googleapis.com/css2'
 
+/**
+ * 本地字体：站点根目录下的文件（引擎按站点根取内置字体，同一个道理）。
+ *
+ * `OpenDesigner SC` 是构建期合成的**全量常用汉字**字体（GB2312 一级字表
+ * 3755 字 + ASCII），见 scripts/build-cjk-font.py。
+ *
+ * 为什么必须有它：引擎画文本节点时只认节点自己的 fontFamily，**不走 CJK
+ * fallback 列表**。而 Google 的 text= 精确子集只含我们指定的那几个字 ——
+ * agent 写的新字不在子集里就是没有字形，节点会被引擎 block 掉、
+ * **画布上完全不显示**（不是豆腐块，是空白）。
+ *
+ * 补子集走不通：Skia 的 TypefaceFontProvider 一个族只认一个 typeface，
+ * 同族重复注册不覆盖。所以只能一次性备好一个全量的。
+ */
+const LOCAL_FONTS: Record<string, string> = {
+  'OpenDesigner SC': '/OpenDesignerSC.otf'
+}
+
+/** 本地字体的族名。 */
+export const LOCAL_FONT_FAMILIES = Object.keys(LOCAL_FONTS)
+
+/**
+ * 预加载本地字体。
+ *
+ * 必须提前加载：只有节点真的用了这个族，引擎的 collectFontKeys 才会发现它，
+ * 而 agent 新建的节点在**下一帧**就要画出来 —— 等它发现就晚了。
+ */
+export async function preloadLocalFonts(): Promise<void> {
+  await Promise.all(
+    LOCAL_FONT_FAMILIES.map((family) =>
+      fontManager.loadFont(family, 'Regular').catch(() => undefined)
+    )
+  )
+}
+
 /** 引擎的 style 名字 → CSS 字重 */
 const WEIGHT_BY_STYLE: Record<string, number> = {
   Thin: 100,
@@ -40,8 +77,15 @@ const WEIGHT_BY_STYLE: Record<string, number> = {
   Black: 900
 }
 
-/** URL 长度有限，一次最多要这么多字 */
-const MAX_CHARS = 400
+/**
+ * URL 长度有限，一次最多要这么多字。
+ *
+ * Google Fonts 的 `text=` 参数按 URL 编码算，中文一个字要占 9 个字符，
+ * 所以这个上限比"字数"看起来小得多。超了就只能退回整族字体 ——
+ * 而整族返回的是按 unicode-range 切好的一组，取第一个很可能正好是不含
+ * 中文的那一片（于是中文又变豆腐块）。所以宁可给足余量。
+ */
+const MAX_CHARS = 1000
 
 /**
  * 子集里必须额外带上的字符。
@@ -112,11 +156,25 @@ async function resolveFontUrl(family: string, weight: number, chars: string): Pr
   return match ? match[1] : null
 }
 
-async function fetchSubset(family: string, style: string): Promise<ArrayBuffer | null> {
+async function fetchSubset(
+  family: string,
+  style: string,
+  characters?: string
+): Promise<ArrayBuffer | null> {
+  const local = LOCAL_FONTS[family]
+  if (local) {
+    try {
+      const response = await fetch(local)
+      if (!response.ok) return null
+      return await response.arrayBuffer()
+    } catch {
+      return null
+    }
+  }
   if (SYSTEM_ONLY_FAMILIES.has(family)) return null
   const weight = WEIGHT_BY_STYLE[style] ?? 400
   // 字太多时 URL 会爆，退回整族字体（Google 会给按 unicode-range 切好的一组，取第一个）
-  const wanted = charactersToRequest()
+  const wanted = characters ?? charactersToRequest()
   const chars = wanted.length > MAX_CHARS ? '' : wanted
   // 重定向只影响「去哪儿取字体」，注册回 provider 时仍然用原来的族名
   const url = await resolveFontUrl(FAMILY_REDIRECT[family] ?? family, weight, chars)
@@ -136,6 +194,17 @@ async function fetchSubset(family: string, style: string): Promise<ArrayBuffer |
 const fontDataByFamily = new Map<string, ArrayBuffer>()
 
 /**
+ * 每个族已经取过子集的字符集。
+ *
+ * 用来判断「文档里出现了新字」—— 因为引擎**不会自动补**：
+ * `fontManager.loadFont` 在字体已加载时，只看 `remoteCoverage`，
+ * 而 `remoteCoverage` 只对「远程 provider 取来的字体」有值。
+ * 我们的字体走的是 `hostFontLoader`（本地路径），覆盖缺口检测不到，
+ * 于是新字永远补不进来 —— 表现是：新节点在、图层树里有，画布上却不显示。
+ */
+const requestedCharsByFamily = new Map<string, string>()
+
+/**
  * 装上字体钩子。装之前要先 setFontCharacters，否则拿不到字符集。
  *
  * 顺带解决一个隐蔽的问题：**引擎自己画的图层标签**（画板标题、组件集名、
@@ -152,6 +221,7 @@ export function installHostFontLoader(): void {
       const data = await fetchSubset(family, style)
       if (!data) return null
       fontDataByFamily.set(family, data)
+      requestedCharsByFamily.set(family, charactersToRequest())
       // 让没有指定字体的文本（引擎的标签）也用上这份带中文字形的字体
       try {
         fontManager.provider()?.registerFont(data, '')
@@ -163,6 +233,90 @@ export function installHostFontLoader(): void {
       return null
     }
   })
+}
+
+/**
+ * 取一份字体的数据，但**注册成别的族名**。
+ *
+ * Google 上只有 "Noto Sans SC" 这一个中文族，我们却要把它切成好几批
+ * （每批一个 text= 子集），每批注册成不同的族名 —— 因为 Skia 的
+ * TypefaceFontProvider 一个族只认一个 typeface，同族重复注册不覆盖。
+ *
+ * @param alias 注册时用的族名
+ * @param source 去 Google 取字体时用的真实族名
+ */
+async function fetchSubsetAs(
+  alias: string,
+  source: string,
+  style: string,
+  characters: string
+): Promise<ArrayBuffer | null> {
+  const weight = WEIGHT_BY_STYLE[style] ?? 400
+  const chars = characters.length > MAX_CHARS ? '' : characters
+  const url = await resolveFontUrl(source, weight, chars)
+  if (!url) return null
+  const response = await fetch(url)
+  if (!response.ok) return null
+  return await response.arrayBuffer()
+}
+
+/**
+ * 装常用汉字兜底族。
+ *
+ * 引擎的 CJK 兜底族是**操作系统字体**，容器和 CI 里一个都没有。
+ * 所以往列表里加一批我们自己从 Google 取的常用汉字（每批一个族），
+ * 缺字时 SkParagraph 会按 families 列表逐个找，找到有该字形的就用。
+ *
+ * 覆盖 GB2312 一级字表 3755 字 —— 日常中文里几乎不会碰到表外的字。
+ */
+export async function installCjkFallbacks(): Promise<void> {
+  await Promise.all(
+    CJK_FALLBACK_BATCHES.map(async (batch, index) => {
+      const alias = `OpenDesigner SC ${index}`
+      try {
+        const data = await fetchSubsetAs(alias, 'Noto Sans SC', 'Regular', batch)
+        if (!data) return
+        fontManager.markLoaded(alias, 'Regular', data, 'registered')
+        fontManager.setCJKFallbackFamily(alias)
+      } catch {
+        /* 某个批次取不到就少一批，不影响其它 */
+      }
+    })
+  )
+}
+
+/**
+ * 保证字体覆盖文档里出现的所有字。
+ *
+ * 文档里出现新字时（agent 写的、用户粘贴的），要**重新取一次子集并重新注册**，
+ * 否则那些字没有字形，节点会被引擎 block 掉不渲染。
+ *
+ * @returns 是否成功覆盖
+ */
+export async function ensureFontCoverage(
+  family: string,
+  style: string,
+  characters: string
+): Promise<boolean> {
+  // charactersToRequest() 里已经包含 currentCharacters（applyFonts 刚设过的，
+  // 包含文档里新出现的字），不能再拼一遍 —— 拼两遍会让长度翻倍，
+  // 一旦超过 MAX_CHARS 就退回整族字体，取到的第一个切片正好没有中文字形。
+  const wanted = charactersToRequest()
+  const prev = requestedCharsByFamily.get(family) ?? ''
+  const missing = Array.from(new Set(wanted)).filter((c) => !prev.includes(c)).join('')
+  if (!missing) return true
+  const data = await fetchSubset(family, style, wanted)
+  if (!data) return false
+  fontDataByFamily.set(family, data)
+  requestedCharsByFamily.set(family, wanted)
+  // 重新注册：把新字形塞进 provider
+  fontManager.markLoaded(family, style, data, 'registered')
+  try {
+    fontManager.provider()?.registerFont(data, '')
+  } catch {
+    /* 注册失败也不影响正文渲染 */
+  }
+  return true
 }
 
 /** 已经加载过的字体数据（用来在文档换字后免联网重取）。 */
